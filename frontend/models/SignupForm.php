@@ -2,8 +2,8 @@
 namespace frontend\models;
 
 use common\models\User;
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -13,6 +13,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $level;
 
     /**
      * @inheritdoc
@@ -33,6 +34,8 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            ['level', 'required', 'message' => 'Musisz wybrac poziom']
         ];
     }
 
@@ -47,9 +50,16 @@ class SignupForm extends Model
             $user = new User();
             $user->username = $this->username;
             $user->email = $this->email;
+            $user->level = $this->level;
             $user->setPassword($this->password);
             $user->generateAuthKey();
+
+
             if ($user->save()) {
+                $auth = Yii::$app->authManager;
+                $userRole = $auth->getRole('user');
+                $auth->assign($userRole, $user->getId());
+
                 return $user;
             }
         }
