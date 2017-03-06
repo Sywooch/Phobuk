@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property integer $level
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -26,12 +27,23 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const LEVEL_UNPROFESSIONAL = 0;
+    const LEVEL_PROFESSIONAL = 1;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%user}}';
+    }
+
+    public static function getLevels()
+    {
+        return [
+            self::LEVEL_UNPROFESSIONAL => "Amator",
+            self::LEVEL_PROFESSIONAL => "Profesjonalista",
+        ];
     }
 
     /**
@@ -52,6 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+
         ];
     }
 
@@ -82,6 +95,10 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
+    public static function findByLevel($level)
+    {
+        return static::findOne(['level' => $level, 'status' => self::STATUS_ACTIVE]);
+    }
     /**
      * Finds user by password reset token
      *
@@ -124,6 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
+
 
     /**
      * @inheritdoc
