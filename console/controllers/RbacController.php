@@ -2,6 +2,7 @@
 namespace console\controllers;
 use Yii;
 use yii\console\Controller;
+
 /**
  * Created by PhpStorm.
  * User: ewa
@@ -34,6 +35,10 @@ class RbacController extends Controller
         $inviteFriend->description = 'User can invited friend';
         $auth->add($inviteFriend);
 
+        $createEvent = $auth->createPermission('createEvent');
+        $createEvent->description = 'User can create Event';
+        $auth->add($createEvent);
+
 
         $user = $auth->createRole('user');
         $auth->add($user);
@@ -48,6 +53,7 @@ class RbacController extends Controller
         $auth->addChild($author, $createPost);
         $auth->addChild($author, $createComment);
         $auth->addChild($author, $inviteFriend);
+        $auth->addChild($author, $createEvent);
         $auth->addChild($admin, $author);
         $auth->addChild($admin, $updatePost);
         $auth->addChild($admin, $updateComment);
