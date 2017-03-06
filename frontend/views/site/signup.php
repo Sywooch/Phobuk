@@ -9,13 +9,13 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 
-$this->title = 'Signup';
+$this->title = 'Rejestracja';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
+    <p>Aby zarejestrować się, wypełnij poniższe pola:</p>
 
     <div class="row">
         <div class="col-lg-5">
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                <?= Html::submitButton('Zarejetruj się', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
