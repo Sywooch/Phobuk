@@ -1,17 +1,50 @@
 html,
 body {
     height: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 0px;
+
 }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
+h3 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar li a, .navbar .navbar-brand {
+    color: #FBFCFD !important;
+
+}
+
+.navbar-inverse {
+    background-color: #2E3A3F;
+    border: 0;
+
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #c4dfff !important;
+    background-color: #10343f !important;;
+    border-radius: 10px;
+}
+
+.padding-wrapper-fix {
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    margin-left: 0;
+
+}
+
+.backgroung-top {
+    background-color: #2E3A3F;
+    color: #FBFCFD;
+    padding-top: 10%;
 }
 
 .footer {
@@ -89,3 +122,4 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
