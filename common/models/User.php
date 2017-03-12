@@ -12,6 +12,8 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $first_name
+ * @property string $last_name
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
@@ -21,6 +23,17 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property string $text
+ * @property integer $city_id
+ *
+ * @property Camera[] $cameras
+ * @property Comment[] $comments
+ * @property Photo[] $photos
+ * @property PhotoHasUser[] $photoHasUsers
+ * @property Post[] $posts
+ * @property City $city
+ * @property UserHasPhotoType[] $userHasPhotoTypes
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -38,12 +51,18 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%user}}';
     }
 
-    public static function getLevels()
+    public static function getLevelsLabels()
     {
         return [
             self::LEVEL_UNPROFESSIONAL => "Amator",
             self::LEVEL_PROFESSIONAL => "Profesjonalista",
         ];
+    }
+
+    public function getLevelLabel()
+    {
+        $labels = self::getLevelsLabels();
+        return $labels[$this->level];
     }
 
     /**
@@ -202,5 +221,35 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getUsername()
+    {
+        return '@' . $this->username;
+    }
+
+    public function getCity()
+    {
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
+    }
+
+    public function getUserHasPhotoTypes()
+    {
+        return $this->hasMany(UserHasPhotoType::className(), ['user_id' => 'id']);
+    }
+
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['user_id' => 'id']);
+    }
+
+    public function getPhotos()
+    {
+        return $this->hasMany(Photo::className(), ['user_id' => 'id']);
     }
 }
