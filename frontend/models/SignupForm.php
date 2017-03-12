@@ -11,6 +11,8 @@ use yii\base\Model;
 class SignupForm extends Model
 {
     public $username;
+    public $first_name;
+    public $last_name;
     public $email;
     public $password;
     public $level;
@@ -23,8 +25,12 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Ta nzwa użytkownika jest już zajęta. '],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Ta nazwa użytkownika jest już zajęta. '],
             ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['first_name', 'string', 'min' => 2, 'max' => 255],
+            ['last_name', 'string', 'min' => 2, 'max' => 255],
+
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -35,7 +41,8 @@ class SignupForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
 
-            ['level', 'required', 'message' => 'Musisz wybrac poziom']
+            ['level', 'required', 'message' => 'Musisz wybrac poziom'],
+
         ];
     }
 
@@ -43,6 +50,8 @@ class SignupForm extends Model
     {
         return [
             'username' => 'Nazwa uzytkownika',
+            'first_name' => 'Imię',
+            'last_name' => 'Nazwisko',
             'level' => 'Typ fotografa',
             'password' => 'Hasło',
 
@@ -61,6 +70,8 @@ class SignupForm extends Model
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;
+            $user->first_name = $this->first_name;
+            $user->last_name = $this->last_name;
             $user->email = $this->email;
             $user->level = $this->level;
             $user->setPassword($this->password);
