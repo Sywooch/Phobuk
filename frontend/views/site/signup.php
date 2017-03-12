@@ -23,11 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'username') ?>
 
+            <?= $form->field($model, 'first_name') ?>
+
+            <?= $form->field($model, 'last_name') ?>
+
             <?= $form->field($model, 'email') ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 
-            <?= $form->field($model, 'level')->dropDownList(User::getLevels(), [
+            <?= $form->field($model, 'level')->dropDownList(User::getLevelsLabels(), [
                 User::LEVEL_UNPROFESSIONAL => ['selected' => true]
             ]) ?>
 
