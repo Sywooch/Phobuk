@@ -4,11 +4,11 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
-use yii\helpers\Html;
+use common\widgets\Alert;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
@@ -28,15 +28,22 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'Phobuk',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+        ['label' => 'Home', 'url' => ['/site/index']],];
+    $menuItems [] = ['label' => 'Rodzaje zdjęć', 'url' => ['/photo-type']];
+    $menuItems [] = ['label' => 'Zdjęcia', 'url' => ['/photo']];
+    $menuItems [] = ['label' => 'Marki aparatów', 'url' => ['/camera-brand']];
+    $menuItems [] = ['label' => 'Miasta', 'url' => ['/city']];
+    $menuItems [] = ['label' => 'Użytkownicy', 'url' => ['/user']];
+    $menuItems [] = ['label' => 'Posty', 'url' => ['/post']];
+    $menuItems [] = ['label' => 'Kategorie', 'url' => ['/category']];
+    $menuItems [] = ['label' => 'Komentarze', 'url' => ['/comment']];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
@@ -64,7 +71,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Phobuk <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
