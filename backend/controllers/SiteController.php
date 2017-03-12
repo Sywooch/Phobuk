@@ -1,11 +1,13 @@
 <?php
 namespace backend\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
 use common\models\LoginForm;
+use common\models\User;
+use Yii;
+use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 /**
  * Site controller
@@ -55,7 +57,16 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+
+        /** @var User $user */
+        $user = null;
+        return $this->render('index', [
+
+            'user' => $user,
+            'userCount' => $query = (new Query())
+                ->from('user')
+                ->count()
+        ]);
     }
 
     public function actionLogin()
