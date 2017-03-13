@@ -2,10 +2,12 @@
 
 namespace common\models;
 
+use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "photo".
@@ -71,13 +73,21 @@ class Photo extends \yii\db\ActiveRecord
         ];
     }
 
+
     public function upload()
     {
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+
         if ($this->validate()) {
-            $filePath = 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
-            $this->imageFile->saveAs($filePath);
+            $filePath = 'uploads/' . $user->username . '/';
+            if (!is_dir($filePath)) {
+                FileHelper::createDirectory($filePath);
+            };
+            $fullFileName = $filePath . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs($fullFileName);
             $this->imageFile = null;
-            $this->photo = $filePath;
+            $this->photo = $fullFileName;
             return true;
         } else {
             return false;
