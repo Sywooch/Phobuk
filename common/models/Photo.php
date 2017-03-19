@@ -138,10 +138,6 @@ class Photo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPhotoHasUsers()
-    {
-        return $this->hasMany(PhotoHasUser::className(), ['photo_id' => 'id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -149,5 +145,11 @@ class Photo extends \yii\db\ActiveRecord
     public function getPosts()
     {
         return $this->hasMany(Post::className(), ['photo_id' => 'id']);
+    }
+
+    public function getGalleries()
+    {
+        return $this->hasMany(Gallery::className(), ['id' => 'gallery_id'])
+            ->viaTable('photo_in_gallery', ['photo_id' => 'id']);
     }
 }

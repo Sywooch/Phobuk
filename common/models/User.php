@@ -221,6 +221,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+
     }
 
     public function getFullName()
@@ -238,10 +239,6 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 
-    public function getUserHasPhotoTypes()
-    {
-        return $this->hasMany(UserHasPhotoType::className(), ['user_id' => 'id']);
-    }
 
     public function getPosts()
     {
