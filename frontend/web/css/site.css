@@ -50,6 +50,9 @@ h1 {
     background-color: #2E3A3F;
     color: #FBFCFD;
     padding-top: 10%;
+    padding-bottom: 1%;
+    margin-bottom: 2%;
+
 }
 
 .footer {
@@ -126,5 +129,73 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+}
+
+.row {
+    margin-bottom: 3%;
+}
+
+.btn-color {
+    background-color: #354247;
+}
+
+.avatar-small {
+    width: 100%;
+    height: 100%;
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+.avatar-listFriend {
+    width: 100%;
+    height: 100%;
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+.thumbnail-color {
+    background-color: #fefff5;
+    border-color: #d1dfe6;
+
+}
+
+.thumbnail-color2 {
+    background-color: #fefff5;
+    border-color: red;
+
+}
+
+.row-photo {
+
+    position: absolute;
+}
+
+.thumbnail-img {
+    position: relative;
+    display: block;
+}
+
+.cos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-end;
 }
 
