@@ -29,10 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'btn btn-default btn-sm'
         ]) ?>
         <div class="btn-group pull-right" role="group">
-            <?= Html::a(FA::icon('pencil'), ['/photo/update', 'id' => $model->id], [
+            <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/photo/update', 'id' => $model->id], [
                 'class' => 'btn btn-default btn-sm'
             ]) ?>
-            <?= Html::a(FA::icon('trash'), ['delete', 'id' => $model->id],
+            <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],
                 ['class' => 'btn btn-default btn-sm', 'data' => [
                     'confirm' => 'Jesteś pewien, że chcesz usunąć to zdjęcie?',
                     'method' => 'post',
