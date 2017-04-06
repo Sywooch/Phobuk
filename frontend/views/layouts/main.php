@@ -47,8 +47,10 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile']];
         $menuItems[] = ['label' => FA::icon('camera-retro') . ' Zdjęcia', 'url' => ['/photo']];
+        $menuItems[] = ['label' => FA::icon('camera') . ' Galerie', 'url' => ['/gallery']];
         $menuItems[] = ['label' => FA::icon('newspaper-o') . ' Posty', 'url' => ['/post']];
         $menuItems[] = ['label' => FA::icon('calendar') . ' Wydarzenia', 'url' => ['/event']];
+        $menuItems[] = ['label' => FA::icon('user-o') . ' Znajomi', 'url' => ['/friendship']];
         $menuItems[] = [
             'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
