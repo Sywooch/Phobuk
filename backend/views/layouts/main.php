@@ -36,6 +36,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],];
+    $menuItems [] = ['label' => 'Znajomości', 'url' => ['/friendship']];
     $menuItems [] = ['label' => 'Rodzaje zdjęć', 'url' => ['/photo-type']];
     $menuItems [] = ['label' => 'Zdjęcia', 'url' => ['/photo']];
     $menuItems [] = ['label' => 'Marki aparatów', 'url' => ['/camera-brand']];
