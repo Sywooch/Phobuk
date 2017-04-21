@@ -3,13 +3,11 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use rmrevin\yii\fontawesome\FA;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 
 
 AppAsset::register($this);
@@ -45,12 +43,12 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile']];
-        $menuItems[] = ['label' => FA::icon('camera-retro') . ' Zdjęcia', 'url' => ['/photo']];
-        $menuItems[] = ['label' => FA::icon('camera') . ' Galerie', 'url' => ['/gallery']];
-        $menuItems[] = ['label' => FA::icon('newspaper-o') . ' Posty', 'url' => ['/post']];
-        $menuItems[] = ['label' => FA::icon('calendar') . ' Wydarzenia', 'url' => ['/event']];
-        $menuItems[] = ['label' => FA::icon('user-o') . ' Znajomi', 'url' => ['/friendship']];
+        $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile', 'id' => Yii::$app->user->getId()]];
+        //   $menuItems[] = ['label' => FA::icon('camera-retro') . ' Zdjęcia', 'url' => ['/photo']];
+        // $menuItems[] = ['label' => FA::icon('camera') . ' Galerie', 'url' => ['/gallery']];
+        //$menuItems[] = ['label' => FA::icon('newspaper-o') . ' Posty', 'url' => ['/post']];
+        //$menuItems[] = ['label' => FA::icon('calendar') . ' Wydarzenia', 'url' => ['/event']];
+        //$menuItems[] = ['label' => FA::icon('user-o') . ' Znajomi', 'url' => ['/friendship']];
         $menuItems[] = [
             'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
@@ -66,24 +64,35 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+    <div class="row padding-wrapper-fix">
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="aside">
+            <ul>
+                <p><a href="/site/index"><?= FA::icon('home') ?> Strona główna</a></p>
+                <p><a href="/friendship"><?= FA::icon('user') ?> Znajomi</a></p>
+                <p><a href="/photo"><?= FA::icon('camera-retro') ?> Zdjęcia</a></p>
+                <p><a href="/gallery"><?= FA::icon('camera') ?> Galerie</a></p>
+                <p><a href="/post"><?= FA::icon('newspaper-o') ?> Posty</a></p>
+                <p><a href="/event"><?= FA::icon('calendar') ?> Wydarzenia</a></p>
+            </ul>
+
+        </div>
+        <div class="all-content container ">
+            <section class="">
+                <?= $content ?>
+            </section>
+        </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
-    </div>
-</footer>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-right">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
-<?php $this->endBody() ?>
+        </div>
+    </footer>
+
+    <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
