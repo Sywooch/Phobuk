@@ -92,7 +92,8 @@ OR (SELECT friendship.friend_two WHERE(friendship.status =1 AND friendship.frien
             ->andWhere('status = :status', ['status' => Friendship::STATUS_CONFIRM_FRIENDS])
             ->orderBy([
                 'photo.created_at' => SORT_DESC,
-            ]);
+            ])
+            ->select('photo.id, photo.user_id, photo.created_at, photo.photo, photo.category_id, photo.title');
         /** @var Photo $photoAvatar */
         return $this->render('index', [
             'photoFriendProvider' => $photoFriendProvider,
