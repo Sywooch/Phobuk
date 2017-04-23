@@ -7,6 +7,8 @@
  * @var $isCurrentUser bool
  * @var $count
  * @var $photoDataProvider
+ * @var $confirmedFriendDataProvider
+ * @var $friendship \common\models\Friendship
  * rmrevin\yii\fontawesome\AssetBundle::register($this);
  */
 use rmrevin\yii\fontawesome\FA;
@@ -19,7 +21,7 @@ $this->title = $user->getFullName();
     <div class="container padding-wrapper-fix ">
         <div class="row">
             <div class="col-xs-4 col-sm-3 col-md-3 col-sm-offset-3 col-md-offset-3  ">
-                <?= Html::img('/' . $avatar->photo, ['class' => ' img-responsive avatar']); ?>
+                <?= Html::img('/' . $avatar->photo, ['class' => ' img-responsive avatar ']); ?>
             </div>
             <div class="col-xs-4 col-sm-3 col-md-3 ">
                 <div class="row" style="margin-bottom: 0%">
@@ -47,31 +49,53 @@ $this->title = $user->getFullName();
 
             <div class="col-xs-4 col-sm-3 col-md-3 ">
                 <div class="row">
-                    <?= Html::a('Znajomi', ['/friendship/'], ['class' => 'btn btn-primary btn-color']) ?>
+                    <?= Html::a('Znajomi', ['/friendship/', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
                 </div>
-                <div class="row">
-                    <?= Html::a('Aktualizuj profil', ['update', 'id' => $user->id], ['class' => 'btn btn-primary btn-color']) ?>
-                </div>
-                <div class="row">
-                    <?= Html::a('Dodaj zdjęcie', ['/photo/create'], ['class' => 'btn btn-primary btn-color']) ?>
-                </div>
-                <div class="row">
-                    <?= Html::a('Dodaj post', ['/post/create'], ['class' => 'btn btn-primary btn-color']) ?>
-                </div>
+                <?php if (Yii::$app->user->identity->getId() == $user->getId()) { ?>
+
+
+                    <div class="row">
+                        <?= Html::a('Aktualizuj profil', ['update', 'id' => $user->id], ['class' => 'btn btn-primary btn-color']) ?>
+                    </div>
+                    <div class="row">
+                        <?= Html::a('Dodaj zdjęcie', ['/photo/create'], ['class' => 'btn btn-primary btn-color']) ?>
+                    </div>
+                    <div class="row">
+                        <?= Html::a('Dodaj post', ['/post/create'], ['class' => 'btn btn-primary btn-color']) ?>
+                    </div>
+                <?php } ?>
+                <?php if (!$isCurrentUser) { ?>
+
+                    <?php
+                    if (!$friendship) { ?>
+                        <?= Html::a('Dodaj do znajomych', ['friendship/invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                    <?php } else if ($friendship->isConfirmed()) { ?>
+                        <p>Jesteśmy znajomymi</p>
+                        <?= Html::a('Usun ze znajomych', ['friendship/remove', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+
+                    <?php } else if ($friendship->isInvited($user->id)) { ?>
+                        <p> Oczekuje na potwierdzenie </p>
+                        <?= Html::a('Cofnij zaproszenie', ['friendship/revert-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+
+                    <?php } else { ?>
+                        <?= Html::a('Potwierdz', ['friendship/confirm-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Odrzuć', ['friendship/reject', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+
+                    <?php }
+                } ?>
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="container ">
     <div class="row">
 
-        <?= ListView::widget([
-            'dataProvider' => $photoDataProvider,
+        <?= ListView::widget(['dataProvider' => $photoDataProvider,
             'itemView' => '_photo',
             'viewParams' => ['avatar' => $avatar],
-            'summary' => '',
-        ]);
+            'summary' => '',]);
         ?>
-</div>
+    </div>
 </div>
