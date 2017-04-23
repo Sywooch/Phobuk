@@ -8,6 +8,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "photo".
@@ -23,11 +24,14 @@ use yii\helpers\FileHelper;
  * @property Comment[] $comments
  * @property Category $category
  * @property User $user
- * @property PhotoHasUser[] $photoHasUsers
+ * @property User[] $users
  * @property Post[] $posts
  */
 class Photo extends \yii\db\ActiveRecord
 {
+    /**
+     * @var UploadedFile
+     */
     public $imageFile;
 
     /**
@@ -78,7 +82,6 @@ class Photo extends \yii\db\ActiveRecord
     {
         /** @var User $user */
         $user = Yii::$app->user->identity;
-
         if ($this->validate()) {
             $filePath = 'uploads/' . $user->username . '/';
             if (!is_dir($filePath)) {
@@ -151,5 +154,9 @@ class Photo extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Gallery::className(), ['id' => 'gallery_id'])
             ->viaTable('photo_in_gallery', ['photo_id' => 'id']);
+    }
+
+    public function getPhotoAvatars() {
+        return $this->hasMany(User::className(), ['avatar' => 'id']);
     }
 }
