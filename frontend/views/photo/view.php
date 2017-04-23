@@ -21,13 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= FA::icon('calendar'); ?>
         <?= Yii::$app->formatter->asDatetime($model->created_at) ?>
 
-        <?= Html::a(FA::icon('user') . ' ' . $model->user->username, ['/profile/'], [
+        <?= Html::a(FA::icon('user') . ' ' . $model->user->username, ['/profile/', 'id' => $model->user->getId()], [
             'class' => 'btn btn-default btn-sm'
         ]) ?>
 
-        <?= Html::a('#' . $model->category->name, ['/category/', 'id' => $model->id], [
+        <?= Html::a('#' . $model->category->name, ['/category/view', 'id' => $model->category->id], [
             'class' => 'btn btn-default btn-sm'
         ]) ?>
+        <?php if (Yii::$app->user->identity->getId() == $model->user->id) { ?>
         <div class="btn-group pull-right" role="group">
             <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/photo/update', 'id' => $model->id], [
                 'class' => 'btn btn-default btn-sm'
@@ -39,9 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 ]) ?>
         </div>
+        <?php } ?>
     </div>
     <br>
-    <?= Html::img('/' . $model->photo, ['width' => '50%', 'height' => '50%', 'class' => 'center-block']); ?>
+    <?= Html::img('/' . $model->photo, ['class' => 'center-block img-fluid ']); ?>
 
 
 </div>
