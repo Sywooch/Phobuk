@@ -71,12 +71,7 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        /*SELECT * FROM `photo` INNER JOIN friendship WHERE user_id =
-(SELECT friendship.friend_one WHERE(friendship.status =1 AND friendship.friend_two=7 ))
-OR (SELECT friendship.friend_two WHERE(friendship.status =1 AND friendship.friend_one=7 ))*/
-
-
-//        if (!Yii::$app->user->isGuest)
+        if (!Yii::$app->user->isGuest) {
 
         $photoFriendProvider = new ActiveDataProvider();
         $user_id = Yii::$app->user->identity->id;
@@ -94,10 +89,14 @@ OR (SELECT friendship.friend_two WHERE(friendship.status =1 AND friendship.frien
                 'photo.created_at' => SORT_DESC,
             ])
             ->select('photo.id, photo.user_id, photo.created_at, photo.photo, photo.category_id, photo.title');
-        /** @var Photo $photoAvatar */
+
+
+            /** @var Photo $photoAvatar */
         return $this->render('index', [
             'photoFriendProvider' => $photoFriendProvider,
+
         ]);
+        } else return $this->render('about');
     }
 
     /**
