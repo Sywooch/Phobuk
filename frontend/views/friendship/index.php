@@ -1,31 +1,37 @@
 <?php
 
+use common\models\User;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\FriendshipSearch */
 /* @var $confirmedDataProvider yii\data\ActiveDataProvider */
-/* @var $requestsDataProvider yii\data\ActiveDataProvider */
-/* @var $avatar \common\models\Photo */
+/* @var $user \common\models\User */
 
-$this->title = 'Znajomi';
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = 'Znajomi użytkownika: ';
+
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="friendship-index">
+    <?php $query = User::findOne($user);
+    $fullName = $query->getFullName(); ?>
+    <h1><?= Html::encode($this->title) . $fullName ?></h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php if ($user == Yii::$app->user->identity->getId()) { ?>
     <p>
-        <?= Html::a('Zaproszenia', ['request'], ['class' => 'btn btn-primary btn-color']) ?>
+        <?= Html::a('Zaproszenia do znajomych', ['request', 'id' => Yii::$app->user->identity->getId()], ['class' => 'btn btn-primary btn-color']) ?>
     </p>
+    <?php } ?>
 
     <h4>Ilość znajomych: <?= $confirmedDataProvider->count ?> </h4>
 
     <div class="container ">
         <?= ListView::widget([
             'dataProvider' => $confirmedDataProvider,
+            'viewParams' => ['user' => $user],
             'itemView' => '_friend',
             'summary' => '',
         ]);

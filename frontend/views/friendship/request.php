@@ -6,10 +6,11 @@
  * Time: 13:05
  */
 /* @var $requestsDataProvider yii\data\ActiveDataProvider */
+/* @var $user \common\models\User */
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
-$this->title = 'Zaproszenia';
+$this->title = 'Zaproszenia do znajomych';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $requestsDataProvider,
         'itemView' => '_friend',
+        'viewParams' => ['user' => $user],
         'summary' => '',
     ]);
     ?>
