@@ -3,12 +3,12 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use common\widgets\Alert;
+use common\widgets\InvitationButton\InvitationButton;
 use frontend\assets\AppAsset;
+use rmrevin\yii\fontawesome\FA;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 ?>
@@ -35,14 +35,14 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => FA::icon('home') . ' Home', 'url' => ['/site/index']],
     ];
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Rejestracja', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Logowanie', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => 'Profil', 'url' => ['/profile']];
+        $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile', 'id' => Yii::$app->user->getId()]];
         $menuItems[] = [
             'label' => 'Wyloguj się (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
@@ -52,16 +52,19 @@ AppAsset::register($this);
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
         'items' => $menuItems,
     ]);
+
+    if (!Yii::$app->user->isGuest) {
+        echo InvitationButton::widget();
+    }
+
     NavBar::end();
     ?>
 
     <div class="container-fluid padding-wrapper-fix">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+
         <?= $content ?>
     </div>
 </div>
