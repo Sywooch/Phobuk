@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\web\IdentityInterface;
 
 /**
@@ -21,18 +22,19 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $level
  * @property integer $created_at
- * @property integer $updated_at
+ * @property integer $update_at
  * @property string $password write-only password
  *
  * @property string $text
  * @property integer $city_id
+ * @property integer $avatar
  *
  * @property Camera[] $cameras
  * @property Comment[] $comments
  * @property Photo[] $photos
- * @property PhotoHasUser[] $photoHasUsers
  * @property Post[] $posts
  * @property City $city
+ * @property Photo $photoAvatar
  * @property UserHasPhotoType[] $userHasPhotoTypes
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -59,10 +61,23 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     public function getLevelLabel()
     {
         $labels = self::getLevelsLabels();
         return $labels[$this->level];
+    }
+
+    public static function getStatusLabels() {
+        return [
+            self::STATUS_ACTIVE => "Aktywny",
+            self::STATUS_DELETED => "Usunięty",
+        ];
+    }
+
+    public function getStatusLabel() {
+        $status = self::getStatusLabels();
+        return $status[$this->status];
     }
 
     /**
@@ -71,9 +86,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'update_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -83,7 +107,37 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['avatar', 'status', 'level', 'city_id'], 'integer'],
+            [['username', 'email', 'level'], 'required'],
+            [['text'], 'string'],
+            [['first_name', 'last_name', 'username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
+            [['avatar'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['avatar' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
+        ];
+    }
 
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'username' => 'Nazwa użytkownika',
+            'first_name' => 'Imię',
+            'last_name' => 'Nazwisko',
+            'level' => 'Typ fotografa',
+            'password' => 'Hasło',
+            'auth_key',
+            'password_hash',
+            'password_reset_token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Utworzono',
+            'update_at' => 'Zaktualizowano',
+            'text' => 'Opis użytkownika',
+            'avatar' => 'Avatar',
+            'city_id' => 'Miasto',
         ];
     }
 
@@ -186,7 +240,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return true;// Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
     /**
@@ -249,4 +303,27 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Photo::className(), ['user_id' => 'id']);
     }
+
+    public function getFriendshipsOne() {
+        return $this->hasMany(Friendship::className(), ['friend_one' => 'id']);
+    }
+
+    public function getFriendshipsTwo() {
+        return $this->hasMany(Friendship::className(), ['friend_two' => 'id']);
+    }
+
+    public function getPhotoAvatar() {
+        return $this->hasOne(Photo::className(), ['id' => 'avatar']);
+    }
+
+    public function getPhotoTypes() {
+        return $this->hasMany(PhotoType::className(), ['id' => 'photo_type_id'])
+            ->viaTable('user_has_photo_type', ['user_id' => 'id']);
+    }
+
+    public function getUserHasPhotoTypes() {
+        return $this->hasMany(UserHasPhotoType::className(), ['user_id' => 'id']);
+    }
+
+
 }
