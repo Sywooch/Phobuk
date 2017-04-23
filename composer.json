@@ -19,7 +19,9 @@
         "yiisoft/yii2-bootstrap": "*",
       "yiisoft/yii2-swiftmailer": "*",
       "rmrevin/yii2-fontawesome": "2.10.*",
-      "vova07/yii2-imperavi-widget": "*"
+        "vova07/yii2-imperavi-widget": "*",
+        "twbs/bootstrap": "4.0.0-alpha.6",
+        "nirvana-msu/yii2-infinite-scroll": "1.0.*@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
