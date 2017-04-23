@@ -67,7 +67,7 @@ class Friendship extends \yii\db\ActiveRecord
     {
         return [
             [['friend_one', 'friend_two', 'status'], 'required'],
-            [['friend_one', 'friend_two', 'status', 'created_at'], 'integer'],
+            [['friend_one', 'friend_two', 'status'], 'integer'],
             [['friend_one'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['friend_one' => 'id']],
             [['friend_two'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['friend_two' => 'id']],
         ];
@@ -109,6 +109,14 @@ class Friendship extends \yii\db\ActiveRecord
     public static function find()
     {
         return new FriendshipQuery(get_called_class());
+    }
+
+    public function isConfirmed() {
+        return $this->status === Friendship::STATUS_CONFIRM_FRIENDS;
+    }
+
+    public function isInvited($id) {
+        return $this->friend_two === $id;
     }
 
 
