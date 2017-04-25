@@ -9,14 +9,15 @@ use yii\helpers\Html;
 
 $this->title = 'Posty';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="post-index">
-
+    <div id="modal-placeholder"></div>
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Utwórz post', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Utwórz post', ['create'], ['id' => 'create-new-post-btn', 'class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'text:ntext',
             'user_id',
-            'category_id',
+
             'photo_id',
             // 'created_at',
             // 'update_at',

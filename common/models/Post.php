@@ -2,43 +2,63 @@
 
 namespace common\models;
 
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+
 /**
  * This is the model class for table "post".
  *
  * @property integer $id
  * @property string $text
+ * @property string $title
+
  * @property integer $user_id
- * @property integer $category_id
  * @property integer $photo_id
  * @property string $created_at
  * @property string $update_at
  *
  * @property Comment[] $comments
- * @property Category $category
+ * @property PostHasCategory[] $postHasCategories
+ * @property Category $categories
  * @property Photo $photo
  * @property User $user
  */
-class Post extends \yii\db\ActiveRecord
-{
+class Post extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'post';
     }
 
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'update_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['text', 'user_id', 'created_at', 'update_at'], 'required'],
-            [['text'], 'string'],
-            [['user_id', 'category_id', 'photo_id'], 'integer'],
-            [['created_at', 'update_at'], 'safe'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['text'], 'required'],
+            [['text', 'title'], 'string'],
+            [['user_id', 'photo_id'], 'integer'],
+            [['created_at', 'update_at', 'categories_ids'], 'safe'],
             [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -47,48 +67,60 @@ class Post extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'text' => 'Treść',
             'user_id' => 'Użytkownik',
-            'category_id' => 'Kategoria',
             'photo_id' => 'Zdjęcie',
             'created_at' => 'Data utworzenia',
             'update_at' => 'Data aktualizacji',
+            'title' => 'Tytuł',
+            'categories_ids' => 'Kategorie',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->hasMany(Comment::className(), ['post_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPhoto()
-    {
+    public function getPhoto() {
         return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getPostHasCategories() {
+        return $this->hasMany(PostHasCategory::className(), ['post_id' => 'id']);
+    }
+
+    public function getCategories() {
+        $this->hasMany(Category::className(), ['id' => 'category_id'])
+            ->viaTable('post_has_category', ['post_id' => 'id']);
+    }
+
+    public $categories_ids;
+
+    public function loadCategories() {
+        $this->categories_ids = [];
+        foreach ($this->categories as $category) {
+            $this->categories_ids[] = $category->id;
+        }
+        return $this;
     }
 }

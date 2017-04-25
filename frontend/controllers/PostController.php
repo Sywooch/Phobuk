@@ -3,8 +3,11 @@
 namespace frontend\controllers;
 
 use common\models\Post;
+use common\models\PostHasCategory;
 use common\models\PostSearch;
+use common\models\PostWithCategories;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,13 +15,11 @@ use yii\web\NotFoundHttpException;
 /**
  * PostController implements the CRUD actions for Post model.
  */
-class PostController extends Controller
-{
+class PostController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,8 +34,7 @@ class PostController extends Controller
      * Lists all Post models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -49,10 +49,16 @@ class PostController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
+
+        $categories = new ActiveDataProvider();
+        $categories->query = PostHasCategory::find()
+            ->where('post_id = :id', [
+                'id' => $id]);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'post' => $this->findModel($id),
+            'categories' => $categories,
         ]);
     }
 
@@ -61,18 +67,21 @@ class PostController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Post();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $postHasCategory = new PostHasCategory();
+                $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
-    }
+
 
     /**
      * Updates an existing Post model.
@@ -80,17 +89,22 @@ class PostController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
+        //  $postHasCategory = PostHasCategory::find()->all(['post_id'=>$id]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $postHasCategory = new PostHasCategory();
+                $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
+
+        return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+
     }
 
     /**
@@ -99,8 +113,7 @@ class PostController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -113,8 +126,7 @@ class PostController extends Controller
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Post::findOne($id)) !== null) {
             return $model;
         } else {
