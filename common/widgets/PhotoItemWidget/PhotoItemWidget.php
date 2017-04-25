@@ -1,7 +1,9 @@
 <?php
 namespace common\widgets\PhotoItemWidget;
 
+use common\models\PostHasCategory;
 use yii\base\Widget;
+use yii\data\ActiveDataProvider;
 
 /**
  * Created by PhpStorm.
@@ -18,7 +20,16 @@ class PhotoItemWidget extends Widget {
     }
 
     public function run() {
-        return $this->render('_photoItem', ['model' => $this->model]);
+        $postHasCategory = new ActiveDataProvider();
+        $postHasCategory->query = PostHasCategory::find()
+            ->where('post_id = :postId', [
+                'postId' => $this->model['id']
+            ]);
+        return $this->render('_photoItem', [
+            'model' => $this->model,
+            'postHasCategory' => $postHasCategory,
+
+        ]);
     }
 
 }

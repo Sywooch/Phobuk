@@ -144,8 +144,6 @@ a.desc:after {
     margin-bottom: 3%;
 }
 
-
-
 .avatar-small {
     width: 100%;
     height: 100%;
@@ -154,8 +152,8 @@ a.desc:after {
 
     object-fit: cover;
     object-position: center;
-    max-width: 70px;
-    max-height: 70px;
+    max-width: 75px;
+    max-height: 75px;
 
 }
 
@@ -176,12 +174,6 @@ a.desc:after {
 
 }
 
-.thumbnail-color2 {
-    background-color: #fefff5;
-    border-color: red;
-
-}
-
 .row-photo {
 
     position: absolute;
@@ -190,6 +182,11 @@ a.desc:after {
 .thumbnail-img {
     position: relative;
     display: block;
+}
+
+.img-center {
+    margin: 0 auto;
+
 }
 
 .cos {
