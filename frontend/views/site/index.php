@@ -17,7 +17,7 @@ $this->title = Yii::$app->name;
     <div class="row">
 
         <?= ListView::widget([
-            'dataProvider' => $photoFriendProvider,
+            'dataProvider' => $dataProvider,
             'itemView' => '_friend_photo',
             'summary' => '',
         ]);

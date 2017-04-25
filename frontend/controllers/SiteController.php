@@ -11,6 +11,7 @@ use frontend\models\SignupForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
@@ -90,10 +91,32 @@ class SiteController extends Controller {
             ])
             ->select('photo.id, photo.user_id, photo.created_at, photo.photo, photo.category_id, photo.title');
 
+            $rawSQL = "select * from (select 'photo' as 'type', p.id, photo, title,'' as 'text', user_id, p.created_at, category_id, f.friend_one, f.friend_two, f.status from photo p 
+JOIN friendship f ON (f.friend_one = p.user_id AND f.friend_two =$user_id OR f.friend_two = p.user_id AND f.friend_one =$user_id)WHERE f.status =1 
+UNION 
+select 'post' as 'type', d.id, d.photo_id, d.title, text, d.user_id, d.created_at, '', f.friend_one, f.friend_two, f.status from post d 
+JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.friend_two = d.user_id AND f.friend_one =$user_id)WHERE f.status =1 ) phopost
+ ORDER BY created_at DESC";
+
+            $countSQL = "select count(*) from (select 'photo' as 'type', p.id, photo, title,'' as 'text', user_id, p.created_at, category_id, f.friend_one, f.friend_two, f.status from photo p 
+JOIN friendship f ON (f.friend_one = p.user_id AND f.friend_two =$user_id OR f.friend_two = p.user_id AND f.friend_one =$user_id)WHERE f.status =1 
+UNION 
+select 'post' as 'type', d.id, d.photo_id, d.title, text, d.user_id, d.created_at, '', f.friend_one, f.friend_two, f.status from post d 
+JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.friend_two = d.user_id AND f.friend_one =$user_id)WHERE f.status =1 ) phopost
+ ORDER BY created_at DESC";
+
+
+            $count = Yii::$app->db->createCommand($countSQL)->queryScalar();
+
+            $dataProvider = new SqlDataProvider([
+                'sql' => $rawSQL,
+                'totalCount' => $count
+            ]);
 
             /** @var Photo $photoAvatar */
         return $this->render('index', [
             'photoFriendProvider' => $photoFriendProvider,
+            'dataProvider' => $dataProvider,
 
         ]);
         } else return $this->render('about');
