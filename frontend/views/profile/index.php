@@ -21,7 +21,7 @@ $this->title = $user->getFullName();
     <div class="container padding-wrapper-fix ">
         <div class="row">
             <div class="col-xs-4 col-sm-3 col-md-3 col-sm-offset-3 col-md-offset-3  ">
-                <?= Html::img('/' . $avatar->photo, ['class' => ' img-responsive avatar ']); ?>
+                <?= Html::img('/' . $avatar->photo, ['class' => ' img-responsive avatar thumbnail']); ?>
             </div>
             <div class="col-xs-4 col-sm-3 col-md-3 ">
                 <div class="row" style="margin-bottom: 0%">
@@ -88,13 +88,11 @@ $this->title = $user->getFullName();
     </div>
 </div>
 
-
 <div class="container ">
     <div class="row">
 
-        <?= ListView::widget(['dataProvider' => $photoDataProvider,
+        <?= ListView::widget(['dataProvider' => $dataProvider,
             'itemView' => '_photo',
-            'viewParams' => ['avatar' => $avatar],
             'summary' => '',]);
         ?>
     </div>
