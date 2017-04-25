@@ -20,7 +20,7 @@ $this->title = $model->name;
     <div class="row">
 
         <?= ListView::widget([
-            'dataProvider' => $photoDataProvider,
+            'dataProvider' => $dataProvider,
             'itemView' => '_form',
             'summary' => '',
         ]);
