@@ -101,6 +101,13 @@ use yii\helpers\Html;
             } ?>
         </div>
 
+
+        <?= Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, [''], [
+            'class' => 'btn btn-default btn-sm'
+        ]) ?>
+
+
+
     </div>
 </div>
 
