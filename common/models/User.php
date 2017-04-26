@@ -30,7 +30,8 @@ use yii\web\IdentityInterface;
  * @property integer $avatar
  *
  * @property Camera[] $cameras
- * @property Comment[] $comments
+ * @property PhotoCommentComment[] $photoComments
+ * @property PostComment[] $postComments
  * @property Photo[] $photos
  * @property Post[] $posts
  * @property City $city
@@ -323,6 +324,14 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getUserHasPhotoTypes() {
         return $this->hasMany(UserHasPhotoType::className(), ['user_id' => 'id']);
+    }
+
+    public function getPhotoComments() {
+        return $this->hasMany(PhotoComment::className(), ['user_id' => 'id']);
+    }
+
+    public function getPostComments() {
+        return $this->hasMany(PostComment::className(), ['user_id' => 'id']);
     }
 
 
