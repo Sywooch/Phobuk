@@ -1,10 +1,10 @@
 <?php
 
 
-use common\widgets\PhotoItemWidget\PhotoItemWidget;
+use common\widgets\PhotoPostItemWidget\PhotoPostItemWidget;
 
 /** @var \common\models\Photo $model */
 
 ?>
-<?= PhotoItemWidget::widget(['model' => $model]) ?>
+<?= PhotoPostItemWidget::widget(['model' => $model]) ?>
 
