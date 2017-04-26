@@ -21,7 +21,7 @@ use yii\web\UploadedFile;
  * @property string $created_at
  * @property string $update_at
  *
- * @property Comment[] $comments
+ * @property PhotoComment[] $photoComments
  * @property Category $category
  * @property User $user
  * @property User[] $users
@@ -117,9 +117,9 @@ class Photo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComments()
+    public function getPhotoComments()
     {
-        return $this->hasMany(Comment::className(), ['photo_id' => 'id']);
+        return $this->hasMany(PhotoComment::className(), ['photo_id' => 'id']);
     }
 
     /**
