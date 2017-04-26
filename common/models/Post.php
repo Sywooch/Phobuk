@@ -18,10 +18,9 @@ use yii\db\Expression;
  * @property integer $photo_id
  * @property string $created_at
  * @property string $update_at
- *
- * @property Comment[] $comments
+
  * @property PostHasCategory[] $postHasCategories
- * @property Category $categories
+ * @property PostComment[] $postComments
  * @property Photo $photo
  * @property User $user
  */
@@ -80,12 +79,6 @@ class Post extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComments() {
-        return $this->hasMany(Comment::className(), ['post_id' => 'id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -103,6 +96,10 @@ class Post extends \yii\db\ActiveRecord {
      */
     public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getPostComments() {
+        return $this->hasMany(PostComment::className(), ['post_id' => 'id']);
     }
 
     public function getPostHasCategories() {
