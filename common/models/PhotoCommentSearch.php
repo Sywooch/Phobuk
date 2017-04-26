@@ -6,9 +6,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * CommentSearch represents the model behind the search form about `common\models\Comment`.
+ * PhotoCommentSearch represents the model behind the search form about `common\models\PhotoComment`.
  */
-class CommentSearch extends Comment
+class PhotoCommentSearch extends PhotoComment
 {
     /**
      * @inheritdoc
@@ -16,7 +16,7 @@ class CommentSearch extends Comment
     public function rules()
     {
         return [
-            [['id', 'user_id', 'photo_id', 'post_id'], 'integer'],
+            [['id', 'user_id', 'photo_id'], 'integer'],
             [['text', 'created_at'], 'safe'],
         ];
     }
@@ -39,7 +39,7 @@ class CommentSearch extends Comment
      */
     public function search($params)
     {
-        $query = Comment::find();
+        $query = PhotoComment::find();
 
         // add conditions that should always apply here
 
@@ -61,7 +61,6 @@ class CommentSearch extends Comment
             'created_at' => $this->created_at,
             'user_id' => $this->user_id,
             'photo_id' => $this->photo_id,
-            'post_id' => $this->post_id,
         ]);
 
         $query->andFilterWhere(['like', 'text', $this->text]);

@@ -2,42 +2,60 @@
 
 namespace common\models;
 
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+
 /**
- * This is the model class for table "comment".
+ * This is the model class for table "photo_comment".
  *
  * @property integer $id
  * @property string $text
  * @property string $created_at
  * @property integer $user_id
  * @property integer $photo_id
- * @property integer $post_id
  *
  * @property Photo $photo
- * @property Post $post
  * @property User $user
  */
-class Comment extends \yii\db\ActiveRecord
+class PhotoComment extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'comment';
+        return 'photo_comment';
     }
 
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['text', 'created_at', 'user_id'], 'required'],
+            [['text'], 'required'],
             [['text'], 'string'],
             [['created_at'], 'safe'],
-            [['user_id', 'photo_id', 'post_id'], 'integer'],
+            [['user_id', 'photo_id'], 'integer'],
             [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
-            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['post_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -49,11 +67,10 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Treść',
+            'text' => 'Treść komentarza',
             'created_at' => 'Data utworzenia',
             'user_id' => 'Użytkownik',
             'photo_id' => 'Zdjęcie',
-            'post_id' => 'Post',
         ];
     }
 
@@ -65,13 +82,6 @@ class Comment extends \yii\db\ActiveRecord
         return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPost()
-    {
-        return $this->hasOne(Post::className(), ['id' => 'post_id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
