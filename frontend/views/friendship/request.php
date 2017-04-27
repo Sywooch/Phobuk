@@ -7,6 +7,7 @@
  */
 /* @var $requestsDataProvider yii\data\ActiveDataProvider */
 /* @var $user \common\models\User */
+
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -17,16 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <h4>Ilość zaproszeń: <?= $requestsDataProvider->count ?> </h4>
 
-<div class="container ">
 
+<div class="container ">
     <?= ListView::widget([
         'dataProvider' => $requestsDataProvider,
-        'itemView' => '_friend',
         'viewParams' => ['user' => $user],
+        'itemView' => '_form',
         'summary' => '',
     ]);
     ?>
-
 </div>
+
 
 

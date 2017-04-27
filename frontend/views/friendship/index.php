@@ -32,7 +32,7 @@ $this->title = 'Znajomi użytkownika: ';
         <?= ListView::widget([
             'dataProvider' => $confirmedDataProvider,
             'viewParams' => ['user' => $user],
-            'itemView' => '_friend',
+            'itemView' => '_form',
             'summary' => '',
         ]);
         ?>
