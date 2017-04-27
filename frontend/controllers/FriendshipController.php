@@ -63,23 +63,14 @@ class FriendshipController extends Controller {
             'query' => $confirmedQuery
         ]);
 
+        $model = new Friendship();
         /** @var Friendship $model */
         /** @var Photo $photoAvatar */
         return $this->render('index', [
             'confirmedDataProvider' => $confirmedDataProvider,
             'user' => $user->getId(),
+            'model' => $model,
 
-        ]);
-    }
-
-    /**
-     * Displays a single Friendship model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id) {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
@@ -115,7 +106,7 @@ class FriendshipController extends Controller {
         $model->status = Friendship::STATUS_FRIEND_REQUEST;
 
         $model->save();
-        return $this->redirect(['/profile', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionRevertInvite($id) {
@@ -131,7 +122,7 @@ class FriendshipController extends Controller {
             $friendship->delete();
         }
 
-        return $this->redirect(['/profile', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionConfirmInvite($id) {
@@ -148,7 +139,7 @@ class FriendshipController extends Controller {
             $friendship->save();
         }
 
-        return $this->redirect(['/profile', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 
@@ -163,7 +154,7 @@ class FriendshipController extends Controller {
             $friendship->delete();
         }
 
-        return $this->redirect(['/profile', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 
@@ -178,38 +169,9 @@ class FriendshipController extends Controller {
             $friendship->delete();
         }
 
-        return $this->redirect(['/profile', 'id' => $id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
-    /**
-     * Updates an existing Friendship model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing Friendship model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Friendship model based on its primary key value.
