@@ -50,8 +50,8 @@ h1 {
 .backgroung-top {
     background-color: #2E3A3F;
     color: #FBFCFD;
-    padding-top: 10%;
-    padding-bottom: 1%;
+    padding-top: 50px;
+    padding-bottom: 100px;
     margin-bottom: 2%;
 
 }
@@ -302,3 +302,8 @@ a:hover {
     font-size: 10px;
 }
 
+.camera-brand-button {
+    display: inline;
+    margin: 3px;
+    float: left;
+}
