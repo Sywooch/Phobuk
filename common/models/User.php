@@ -29,8 +29,9 @@ use yii\web\IdentityInterface;
  * @property integer $city_id
  * @property integer $avatar
  *
- * @property Camera[] $cameras
- * @property PhotoCommentComment[] $photoComments
+ * @property UserCamera[] $userCameras
+ * @property CameraBrand[] $cameraBrads
+ * @property PhotoComment[] $photoComments
  * @property PostComment[] $postComments
  * @property Photo[] $photos
  * @property Post[] $posts
@@ -115,6 +116,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
+            [['cameraBrands_ids', 'cameraBrads'], 'safe'],
             [['password_reset_token'], 'unique'],
             [['avatar'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['avatar' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
@@ -139,6 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
             'text' => 'Opis użytkownika',
             'avatar' => 'Avatar',
             'city_id' => 'Miasto',
+            'cameraBrands_ids' => 'Marki aparatów',
         ];
     }
 
@@ -334,5 +337,21 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(PostComment::className(), ['user_id' => 'id']);
     }
 
+    public function getUserCameras() {
+        return $this->hasMany(UserCamera::className(), ['user_id' => 'id']);
+    }
 
+    public function getCameraBrads() {
+        return $this->hasMany(CameraBrand::className(), ['id' => 'camera_brand_id'])
+            ->viaTable('user_camera', ['user_id' => 'id']);
+    }
+
+    public $cameraBrands_ids;
+
+    public function loadCameraBrands() {
+        foreach ($this->cameraBrads as $cameraBrad) {
+            $this->cameraBrands_ids[] = $cameraBrad->id;
+        }
+        return $this;
+    }
 }
