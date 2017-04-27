@@ -5,11 +5,10 @@ namespace frontend\controllers;
 use common\models\Friendship;
 use common\models\Photo;
 use common\models\User;
-use common\models\UserHasPhotoType;
+use common\models\UserCamera;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
-use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 
@@ -45,12 +44,6 @@ class ProfileController extends \yii\web\Controller {
             ->orderBy([
                 'created_at' => SORT_DESC,
             ]);
-        $count = $query = (new Query())
-            ->from('photo')
-            ->where('user_id = :userID', [
-                'userID' => $user->getId()])
-            ->count();
-
 
         $friendship = Friendship::find()
             ->forUsers(Yii::$app->user->identity->getId(), $id)
@@ -76,7 +69,6 @@ WHERE user_id = $userId ORDER BY created_at DESC";
             'totalCount' => $count
         ]);
 
-
         /** @var Photo $photoAvatar */
         return $this->render('index', [
             'user' => $user,
@@ -85,9 +77,7 @@ WHERE user_id = $userId ORDER BY created_at DESC";
             'photoDataProvider' => $photoDataProvider,
             'dataProvider' => $dataProvider,
             'isCurrentUser' => $user->getId() === Yii::$app->user->identity->getId(),
-            'count' => $count,
             'friendship' => $friendship,
-
 
         ]);
 
@@ -103,26 +93,19 @@ WHERE user_id = $userId ORDER BY created_at DESC";
      */
     public function actionUpdate($id) {
 
-        $model = $this->findModel($id);
+        $model = $this->findModel($id)->loadCameraBrands();
 
 
-        /*  $photoType = Yii::$app->request->post('user')['photoTypes'];
-          $photoTypeModel = PhotoType::findAll($photoType);*/
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            $userHasPhotoType = new UserHasPhotoType();
-
-            /*=$userHasPhotoType = new UserHasPhotoType();
-            $userHasPhotoType->savePhotoTypes($model->id, $model->photo_type_ids);*/
-
-            return $this->redirect('/profile');
-
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $userCamera = new UserCamera();
+                $userCamera->saveUserCamera($model->id, $model->cameraBrands_ids);
+                return $this->redirect(['index', 'id' => $model->id]);
+            }
         }
+
         return $this->render('update', [
             'model' => $model,
-
-
         ]);
     }
 
