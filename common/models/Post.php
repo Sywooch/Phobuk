@@ -13,14 +13,13 @@ use yii\db\Expression;
  * @property integer $id
  * @property string $text
  * @property string $title
-
  * @property integer $user_id
  * @property integer $photo_id
  * @property string $created_at
  * @property string $update_at
-
  * @property PostHasCategory[] $postHasCategories
  * @property PostComment[] $postComments
+ * @property Category[] $categories
  * @property Photo $photo
  * @property User $user
  */
@@ -49,6 +48,7 @@ class Post extends \yii\db\ActiveRecord {
             ],
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -57,7 +57,7 @@ class Post extends \yii\db\ActiveRecord {
             [['text'], 'required'],
             [['text', 'title'], 'string'],
             [['user_id', 'photo_id'], 'integer'],
-            [['created_at', 'update_at', 'categories_ids'], 'safe'],
+            [['created_at', 'update_at', 'categories_ids', 'categories'], 'safe'],
             [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -107,14 +107,15 @@ class Post extends \yii\db\ActiveRecord {
     }
 
     public function getCategories() {
-        $this->hasMany(Category::className(), ['id' => 'category_id'])
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])
             ->viaTable('post_has_category', ['post_id' => 'id']);
     }
 
     public $categories_ids;
 
+
     public function loadCategories() {
-        $this->categories_ids = [];
+
         foreach ($this->categories as $category) {
             $this->categories_ids[] = $category->id;
         }

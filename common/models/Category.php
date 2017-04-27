@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "category".
  *
@@ -9,23 +11,20 @@ namespace common\models;
  * @property string $name
  *
  * @property Photo[] $photos
- * @property Post[] $posts
+ * @property PostHasCategory[] $postHasCategories
  */
-class Category extends \yii\db\ActiveRecord
-{
+class Category extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'category';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
@@ -36,8 +35,7 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'name' => 'Nazwa',
@@ -47,16 +45,27 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPhotos()
-    {
+    public function getPhotos() {
         return $this->hasMany(Photo::className(), ['category_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPosts()
-    {
-        return $this->hasMany(Post::className(), ['category_id' => 'id']);
+
+
+    public function getPostHasCategories() {
+        return $this->hasMany(PostHasCategory::className(), ['category_id' => 'id']);
+    }
+
+    public function getPosts() {
+        return $this->hasMany(Post::className(), ['id' => 'post_id'])
+            ->viaTable('post_has_category', ['category_id' => 'id']);
+    }
+
+    public static function getAllCategories() {
+        $categories = self::find()->orderBy('name')->asArray()->all();
+        $items = ArrayHelper::map($categories, 'id', 'name');
+        return $items;
     }
 }

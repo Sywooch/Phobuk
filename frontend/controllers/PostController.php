@@ -100,8 +100,7 @@ class PostController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
-        $model = $this->findModel($id);
-        //  $postHasCategory = PostHasCategory::find()->all(['post_id'=>$id]);
+        $model = $this->findModel($id)->loadCategories();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
