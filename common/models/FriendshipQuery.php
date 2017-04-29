@@ -38,7 +38,7 @@ class FriendshipQuery extends ActiveQuery {
 
     /**
      * Oczekujace
-     * @return FriendshipQuery
+     * @return $this
      */
     public function waiting() {
         return $this->forStatus(Friendship::STATUS_FRIEND_REQUEST);
@@ -61,6 +61,18 @@ class FriendshipQuery extends ActiveQuery {
             ]);
 
         return $this;
+    }
+
+
+    /**
+     * @param $user1Id
+     * @param $user2Id
+     * @return $this
+     */
+    public function forInvitedUsers($user1Id, $user2Id) {
+        return $this->andWhere('friend_two = :user1Id and friend_one = :user2Id', [
+            'user1Id' => $user1Id,
+            'user2Id' => $user2Id]);
     }
 
 
