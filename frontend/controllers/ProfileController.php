@@ -84,7 +84,6 @@ WHERE user_id = $userId ORDER BY created_at DESC";
 
     }
 
-
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -117,6 +116,34 @@ WHERE user_id = $userId ORDER BY created_at DESC";
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    /**
+     * Creates a new Friendship model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionInvite($id) {
+        Friendship::invite($id);
+        return $this->actionIndex($id);
+    }
+
+    public function actionRevertInvite($id) {
+        Friendship::reject(Yii::$app->user->identity->getId(), $id);
+        return $this->actionIndex($id);
+    }
+
+    public function actionConfirmInvite($id) {
+        Friendship::confirm(Yii::$app->user->identity->getId(), $id);
+        return $this->actionIndex($id);
+    }
+
+
+    public function actionRemove($id) {
+        Friendship::remove(Yii::$app->user->identity->getId(), $id);
+        return $this->actionIndex($id);
+    }
+
 
 }
 

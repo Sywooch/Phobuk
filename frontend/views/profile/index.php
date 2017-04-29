@@ -13,6 +13,7 @@ use common\widgets\CameraBrandListWidget\CameraBrandListWidget;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\widgets\Pjax;
 
 $this->title = $user->getFullName();
 ?>
@@ -48,24 +49,30 @@ $this->title = $user->getFullName();
                     <p> <?= Html::a('Dodaj zdjęcie', ['/photo/create'], ['class' => 'btn btn-primary btn-color']) ?></p>
                     <p><?= Html::a('Dodaj post', ['/post/create'], ['class' => 'btn btn-primary btn-color']) ?></p>
                 <?php }
+                Pjax::begin(['enablePushState' => false]);
                 if (!$isCurrentUser) {
                     if (!$friendship) {
-                        echo Html::a('Dodaj do znajomych', ['friendship/invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']);
+                        echo Html::a('Dodaj do znajomych', ['invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']);
                     } else if ($friendship->isConfirmed()) { ?>
                         <p>Jesteśmy znajomymi</p>
-                        <?= Html::a('Usun ze znajomych', ['friendship/remove', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Usun ze znajomych', ['remove', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
                     <?php } else if ($friendship->isInvited($user->id)) { ?>
+
                         <p> Oczekuje na potwierdzenie </p>
-                        <?= Html::a('Cofnij zaproszenie', ['friendship/revert-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Cofnij zaproszenie', ['revert-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+
+
                     <?php } else { ?>
-                        <?= Html::a('Potwierdz', ['friendship/confirm-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
-                        <?= Html::a('Odrzuć', ['friendship/reject', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Potwierdz', ['confirm-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Odrzuć', ['reject', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
                     <?php }
                 } ?>
+                <?php Pjax::end(); ?>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="container ">
     <div class="row">
