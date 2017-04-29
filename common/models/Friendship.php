@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -46,7 +47,6 @@ class Friendship extends \yii\db\ActiveRecord
         return $labels[$this->status];
     }
 
-
     public function behaviors()
     {
         return [
@@ -59,6 +59,7 @@ class Friendship extends \yii\db\ActiveRecord
             ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -117,6 +118,48 @@ class Friendship extends \yii\db\ActiveRecord
 
     public function isInvited($id) {
         return $this->friend_two === $id;
+    }
+
+    public static function invite($invitedUserId) {
+        $model = new Friendship();
+        $model->friend_one = Yii::$app->user->identity->getId();
+        $model->friend_two = $invitedUserId;
+        $model->status = Friendship::STATUS_FRIEND_REQUEST;
+        $model->save();
+    }
+
+    public static function reject($invitingUserId, $invitedUserId) {
+        $friendship = Friendship::find()
+            ->forUsers($invitingUserId, $invitedUserId)
+            ->waiting()
+            ->one();
+
+        if ($friendship) {
+            $friendship->delete();
+        }
+    }
+
+    public static function remove($invitingUserId, $invitedUserId) {
+        $friendship = Friendship::find()
+            ->forUsers($invitingUserId, $invitedUserId)
+            ->confirmed()
+            ->one();
+
+        if ($friendship) {
+            $friendship->delete();
+        }
+    }
+
+    public static function confirm($invitedUserId, $invitingUserId) {
+        $friendship = Friendship::find()
+            ->forInvitedUsers($invitedUserId, $invitingUserId)
+            ->waiting()
+            ->one();
+
+        if ($friendship) {
+            $friendship->status = Friendship::STATUS_CONFIRM_FRIENDS;
+            $friendship->save();
+        }
     }
 
 
