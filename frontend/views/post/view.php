@@ -3,6 +3,7 @@
 use common\widgets\CommentsListWidget\CommentsListWidget;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
+use yii\web\View;
 
 
 /* @var $this yii\web\View */
@@ -12,11 +13,28 @@ use yii\helpers\Html;
 /* @var $commentDataProvider */
 
 $this->title = $post->title;
-$this->params['breadcrumbs'][] = ['label' => 'Posty', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$id = $post->id;
+$js = <<<JS
+   $(document).on('click', '#update-post-btn', function() {
+    $.ajax({
+        url: "/post/update?id=" + $id,
+
+        type: "POST",
+        dataType: "html",
+        success: function(data) {
+            $('#modal-placeholder').html(data);
+            $('#update-post-modal').modal('toggle');
+        }
+    });
+
+    return false;
+});
+JS;
+$this->registerJs($js, View::POS_READY);
 ?>
 
 <div class="col-sm-8 col-sm-offset-2 thumbnail thumbnail-color">
+    <div id="modal-placeholder"></div>
         <div class="post-view">
             <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
 
@@ -32,11 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if (Yii::$app->user->identity->getId() == $post->user->id) { ?>
                     <div class="btn-group pull-right" role="group">
                         <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/post/update', 'id' => $post->id], [
+                            'id' => 'update-post-btn',
                             'class' => 'btn btn-default btn-sm'
                         ]) ?>
                         <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $post->id],
                             ['class' => 'btn btn-default btn-sm', 'data' => [
-                                'confirm' => 'Jesteś pewien, że chcesz usunąć to zdjęcie?',
+                                'confirm' => 'Jesteś pewien, że chcesz usunąć ten post?',
                                 'method' => 'post',
                             ],
                             ]) ?>
@@ -68,5 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= CommentsListWidget::widget([
                 'model' => $post,
                 'commentDataProvider' => $commentDataProvider]) ?>
-    </div>
+
+
+        </div>
 </div>

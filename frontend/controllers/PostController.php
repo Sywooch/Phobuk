@@ -80,15 +80,20 @@ class PostController extends Controller {
     public function actionCreate() {
         $model = new Post();
 
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                $postHasCategory = new PostHasCategory();
-                $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                if (!$model->categories_ids == null) {
+                    $postHasCategory = new PostHasCategory();
+                    $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-            return $this->render('create', [
+        return $this->renderAjax('create', [
                 'model' => $model,
+
             ]);
         }
 
@@ -104,13 +109,17 @@ class PostController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                $postHasCategory = new PostHasCategory();
-                $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                if (!$model->categories_ids == null) {
+                    $postHasCategory = new PostHasCategory();
+                    $postHasCategory->savePostHasCategory($model->id, $model->categories_ids);
+                } else {
+                    PostHasCategory::deleteAll(['post_id' => $id]);
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
                 'model' => $model,
             ]);
 
