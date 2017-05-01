@@ -1,21 +1,23 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Photo */
 
-$this->title = 'Dodaj zdjęcie';
-$this->params['breadcrumbs'][] = ['label' => 'Zdjęcia', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="photo-create">
 
-    <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
+?>
+<div style="color: black">
+    <?php Modal::begin([
+        'id' => 'create-photo-modal',
+        'header' => '<div style="text-align: center"> <h3>Dodaj nowe zdjęcie</h3></div>',
+        'size' => Modal::SIZE_LARGE
+    ]); ?>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $model
     ]) ?>
 
+    <?php Modal::end(); ?>
 </div>

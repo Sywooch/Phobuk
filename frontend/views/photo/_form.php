@@ -33,6 +33,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz kategorię']) ?>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-xs-offset-4 col-sm-offset-5">
     <div class="form-group">
@@ -40,6 +41,7 @@ use yii\widgets\ActiveForm;
     </div>
         </div>
     </div>
+
     <?php ActiveForm::end(); ?>
 
 </div>

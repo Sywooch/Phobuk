@@ -4,16 +4,33 @@ use common\models\Photo;
 use common\widgets\CommentsListWidget\CommentsListWidget;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $photoComment common\models\PhotoComment */
 /* @var $model common\models\Photo */
 /* @var $commentDataProvider */
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Zdjęcia', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$id = $model->id;
+$js = <<<JS
+   $(document).on('click', '#update-photo-btn', function() {
+    $.ajax({
+        url: "/photo/update?id=" + $id,
+        type: "POST",
+        dataType: "html",
+        success: function(data) {
+            $('#modal-placeholder').html(data);
+            $('#update-photo-modal').modal('toggle');
+        }
+    });
+
+    return false;
+});
+JS;
+$this->registerJs($js, View::POS_READY);
 ?>
 <div class="photo-view">
+    <div id="modal-placeholder"></div>
     <div class="col-sm-8 col-sm-offset-2 thumbnail">
     <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
 
@@ -38,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->identity->getId() == $model->user->id) { ?>
             <div class="btn-group pull-right" role="group">
                 <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/photo/update', 'id' => $model->id], [
+                    'id' => 'update-photo-btn',
                     'class' => 'btn btn-default btn-sm'
                 ]) ?>
                 <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],

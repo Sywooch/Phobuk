@@ -96,7 +96,7 @@ class PhotoController extends Controller
         }
 
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
 
@@ -125,7 +125,7 @@ class PhotoController extends Controller
 
 
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }

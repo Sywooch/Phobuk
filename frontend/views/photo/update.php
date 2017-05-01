@@ -1,21 +1,22 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap\Modal;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Photo */
 
-$this->title = 'Aktualizuj zdjęcie: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Zdjęcia', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="photo-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div style="color: black">
+    <?php Modal::begin([
+        'id' => 'update-photo-modal',
+        'header' => '<div style="text-align: center"> <h3>Aktualizuja zdjęcia</h3></div>',
+        'size' => Modal::SIZE_LARGE
+    ]); ?>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $model
     ]) ?>
 
+    <?php Modal::end(); ?>
 </div>
