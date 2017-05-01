@@ -5,6 +5,7 @@ use common\models\City;
 use common\models\Photo;
 use common\models\User;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -15,43 +16,55 @@ use yii\helpers\Html;
 /* @var $photoTypes */
 /* @var $userWithPhotoType */
 $this->title = 'Aktualizacja profilu: ' . $model->username;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+
 ?>
-<div class="user-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php $form = ActiveForm::begin([
-        'id' => 'post-form',
-        'enableAjaxValidation' => false,
+<div style="color: black">
+    <?php Modal::begin([
+        'id' => 'update-user-modal',
+        'header' => '<div style="text-align: center"> <h3>Aktualizuja profilu</h3></div>',
+        'size' => Modal::SIZE_LARGE
     ]); ?>
+    <div class="user-update">
 
-    <?= $form->field($model, 'username') ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'post-form',
+            'enableAjaxValidation' => false,
+        ]); ?>
 
-    <?= $form->field($model, 'first_name') ?>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'username') ?>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'first_name') ?>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'last_name') ?>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'email') ?>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <?= $form->field($model, 'level')->dropDownList(User::getLevelsLabels(), [
+                User::LEVEL_UNPROFESSIONAL => ['selected' => true]]) ?>
+        </div>
 
-    <?= $form->field($model, 'last_name') ?>
+        <?php $img = ArrayHelper::map(Photo::find()->all(), 'id', 'photo'); ?>
 
-    <?= $form->field($model, 'email') ?>
+        <?= $form->field($model, 'avatar')->inline()->radioList(Photo::imageList($img), ['prompt' => 'Wybierz avatar', 'encode' => false]) ?>
 
-    <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
-
-    <?= $form->field($model, 'avatar')->dropDownList(ArrayHelper::map(Photo::find()->all(), 'id', 'photo'), ['prompt' => 'Wybierz avatar']) ?>
-
-    <?= $form->field($model, 'level')->dropDownList(User::getLevelsLabels(), [
-        User::LEVEL_UNPROFESSIONAL => ['selected' => true]
-    ]) ?>
-
-    <?= $form->field($model, 'text')->textarea(['rows' => 4]) ?>
-    <?= $form->field($model, 'cameraBrands_ids')->checkboxList(CameraBrand::getAllCameraBrands(), ['multiple' => true]) ?>
+        <?= $form->field($model, 'text')->textarea(['rows' => 4]) ?>
+        <?= $form->field($model, 'cameraBrands_ids')->inline()->checkboxList(CameraBrand::getAllCameraBrands(), ['multiple' => true]) ?>
 
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Aktualizuj', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="form-group col-xs-offset-5">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Aktualizuj', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+    <?php Modal::end(); ?>
 </div>
-

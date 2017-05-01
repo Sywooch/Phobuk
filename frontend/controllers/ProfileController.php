@@ -103,7 +103,7 @@ WHERE user_id = $userId ORDER BY created_at DESC";
             }
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }

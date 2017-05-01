@@ -12,12 +12,31 @@
 use common\widgets\CameraBrandListWidget\CameraBrandListWidget;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 $this->title = $user->getFullName();
+$id = $user->id;
+$js = <<<JS
+   $(document).on('click', '#update-user-btn', function() {
+    $.ajax({
+        url: "/profile/update?id=" + $id,
+        type: "POST",
+        dataType: "html",
+        success: function(data) {
+            $('#modal-placeholder').html(data);
+            $('#update-user-modal').modal('toggle');
+        }
+    });
+
+    return false;
+});
+JS;
+$this->registerJs($js, View::POS_READY);
 ?>
 <div class="backgroung-top">
+    <div id="modal-placeholder"></div>
     <div class="container">
         <div class="row">
             <div class="col-xs-4 col-sm-3 col-md-3 col-sm-offset-2 col-md-offset-2  ">
@@ -45,9 +64,15 @@ $this->title = $user->getFullName();
 
                 <p>  <?= Html::a('Znajomi', ['/friendship/', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?></p>
                 <?php if (Yii::$app->user->identity->getId() == $user->getId()) { ?>
-                    <p><?= Html::a('Aktualizuj profil', ['update', 'id' => $user->id], ['class' => 'btn btn-primary btn-color']) ?></p>
-                    <p> <?= Html::a('Dodaj zdjęcie', ['/photo/create'], ['class' => 'btn btn-primary btn-color']) ?></p>
-                    <p><?= Html::a('Dodaj post', ['/post/create'], ['class' => 'btn btn-primary btn-color']) ?></p>
+                    <p><?= Html::a('Aktualizuj profil', ['update', 'id' => $user->id], [
+                            'id' => 'update-user-btn',
+                            'class' => 'btn btn-primary btn-color']) ?></p>
+                    <p> <?= Html::a('Dodaj zdjęcie', ['/photo/create'], [
+                            'id' => 'create-new-photo-btn',
+                            'class' => 'btn btn-primary btn-color']) ?></p>
+                    <p><?= Html::a('Dodaj post', ['/post/create'], [
+                            'id' => 'create-new-post-btn',
+                            'class' => 'btn btn-primary btn-color']) ?></p>
                 <?php }
                 Pjax::begin(['enablePushState' => false]);
                 if (!$isCurrentUser) {
@@ -73,7 +98,6 @@ $this->title = $user->getFullName();
     </div>
 </div>
 
-
 <div class="container ">
     <div class="row">
 
@@ -82,4 +106,5 @@ $this->title = $user->getFullName();
             'summary' => '',]);
         ?>
     </div>
+
 </div>
