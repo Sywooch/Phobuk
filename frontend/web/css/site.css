@@ -50,8 +50,8 @@ h1 {
 .backgroung-top {
     background-color: #2E3A3F;
     color: #FBFCFD;
-    padding-top: 50px;
-    padding-bottom: 100px;
+    padding-top: 9%;
+    padding-bottom: 7%;
     margin-bottom: 2%;
 
 }
@@ -306,4 +306,17 @@ a:hover {
     display: inline;
     margin: 3px;
     float: left;
+}
+
+.unlike-button {
+    display: none;
+}
+
+.photo-radio {
+    margin: 10px;
+}
+
+div.required label.control-label:after {
+    content: " * (wymagane)";
+    color: #4da3ff;
 }

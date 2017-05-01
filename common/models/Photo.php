@@ -8,6 +8,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\helpers\FileHelper;
+use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 /**
@@ -158,5 +159,15 @@ class Photo extends \yii\db\ActiveRecord
 
     public function getPhotoAvatars() {
         return $this->hasMany(User::className(), ['avatar' => 'id']);
+    }
+
+    public static function imageList($filenames) {
+        $imageList = [];
+        foreach ($filenames as $id => $path) {
+            $imageList[$id] = Html::img('/' . $path, ['class' => ' img-responsive avatar-listFriend photo-radio thumbnail ']);
+
+
+        }
+        return $imageList;
     }
 }
