@@ -42,8 +42,8 @@ class PhotoInGallery extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'photo_id' => 'Photo ID',
-            'gallery_id' => 'Gallery ID',
+            'photo_id' => 'Zdjęcie',
+            'gallery_id' => 'Galeria',
         ];
     }
 
@@ -61,5 +61,16 @@ class PhotoInGallery extends \yii\db\ActiveRecord
     public function getPhoto()
     {
         return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
+    }
+
+    public function savePhotoInGallery($gallery, array $photos) {
+        self::deleteAll(array('gallery_id' => $gallery));
+        foreach ($photos as $photo) {
+            $model = new PhotoInGallery();
+            $model->gallery_id = $gallery;
+            $model->photo_id = $photo;
+            $model->save(false);
+        }
+
     }
 }

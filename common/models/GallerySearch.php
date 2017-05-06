@@ -20,7 +20,7 @@ class GallerySearch extends Gallery
     public function rules()
     {
         return [
-            [['id', 'type', 'user_id', 'category_id'], 'integer'],
+            [['id', 'type', 'user_id'], 'integer'],
             [['title', 'photo'], 'safe'],
         ];
     }
@@ -65,12 +65,11 @@ class GallerySearch extends Gallery
             'id' => $this->id,
             'type' => $this->type,
             'user_id' => $this->user_id,
-            'category_id' => $this->category_id,
+
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'user_id', $this->user_id])
-            ->andFilterWhere(['like', 'category_id', $this->category_id])
             ->andFilterWhere(['like', 'photo', $this->photo]);
 
         return $dataProvider;

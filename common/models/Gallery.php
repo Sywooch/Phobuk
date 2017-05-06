@@ -2,6 +2,11 @@
 
 namespace common\models;
 
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+
 /**
  * This is the model class for table "gallery".
  *
@@ -10,13 +15,17 @@ namespace common\models;
  * @property integer $user_id
  * @property integer $category_id
  * @property string $title
- *
+ * @property string $created_at
+ * @property Photo[] $photos
  * @property Category $category
  * @property User $user
  * @property PhotoInGallery[] $photoInGalleries
  */
 class Gallery extends \yii\db\ActiveRecord
 {
+    const TYPE_PRIVATE = 0;
+    const TYPE_PUBLIC = 1;
+
     /**
      * @inheritdoc
      */
@@ -25,17 +34,41 @@ class Gallery extends \yii\db\ActiveRecord
         return 'gallery';
     }
 
+    public static function getTypeLabels() {
+        return [
+            self::TYPE_PRIVATE => "Prywatna",
+            self::TYPE_PUBLIC => "Publiczna",
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['type', 'user_id', 'category_id'], 'integer'],
-            [['user_id', 'title'], 'required'],
+            [['type', 'user_id'], 'integer'],
+            [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['created_at', 'photos_ids', 'photos'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+
         ];
     }
 
@@ -46,20 +79,15 @@ class Gallery extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'type' => 'Type',
-            'user_id' => 'User ID',
-            'category_id' => 'Category ID',
-            'title' => 'Title',
+            'type' => 'Rodzaj galerii',
+            'user_id' => 'Użytkownik',
+            'title' => 'Tytuł',
+            'created_at' => 'Data utworzenia',
+            'photos_ids' => 'Zdjęcia'
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
-    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -80,8 +108,19 @@ class Gallery extends \yii\db\ActiveRecord
 
     public function getPhotos()
     {
-        $this->hasMany(Photo::className(), ['id' => 'photo_id'])
+        return $this->hasMany(Photo::className(), ['id' => 'photo_id'])
             ->viaTable('photo_in_gallery', ['gallery_id' => 'id']);
 
+    }
+
+    public $photos_ids;
+
+
+    public function loadPhotos() {
+
+        foreach ($this->photos as $photo) {
+            $this->photos_ids[] = $photo->id;
+        }
+        return $this;
     }
 }
