@@ -27,3 +27,19 @@ $(document).on('click', '#create-new-photo-btn', function () {
     });
     return false;
 });
+
+$('#menu-toggle').click(function () {
+
+    if ($(this).hasClass('open')) {
+        $(this).removeClass('open');
+    } else {
+        $(this).addClass('open');
+    }
+
+    var leftMenu = $('#left-menu');
+    if (leftMenu.hasClass('open')) {
+        leftMenu.removeClass('open');
+    } else {
+        leftMenu.addClass('open');
+    }
+});
