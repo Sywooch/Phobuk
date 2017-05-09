@@ -11,14 +11,27 @@ use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 
 ?>
+<div class="cameras-box">
 
-<?php foreach ($cameraBrands->models as $cameraBrand) {
-    $query = CameraBrand::findOne($cameraBrand->camera_brand_id);
-    $camera_brand = $query->name; ?>
-    <div class="camera-brand-button">
-        <?php echo Html::a(FA::icon('camera') . ' ' . $camera_brand, ['/camera-brand/view', 'id' => $cameraBrand->camera_brand_id], [
-            'class' => 'btn btn-primary btn-color btn-sm']);
-        echo ' '; ?>
+    <div class="btn btn-primary btn-color btn-sm cameras-button" onclick="onToggle(this)">
+        <?= FA::icon('camera') . ' Aparaty: ' . $cameraBrands->count ?>
     </div>
-<?php } ?>
 
+    <div class="cameras-list">
+        <?php
+
+        foreach ($cameraBrands->models as $cameraBrand) {
+            $query = CameraBrand::findOne($cameraBrand->camera_brand_id);
+            $camera_brand = $query->name; ?>
+            <div class="camera-brand-button">
+                <?php echo Html::a(FA::icon('camera') . ' ' . $camera_brand, ['/camera-brand/view', 'id' => $cameraBrand->camera_brand_id], [
+                    'class' => 'btn btn-primary btn-color btn-sm',
+                ]);
+                echo ' '; ?>
+            </div>
+        <?php } ?>
+        <div class="clearfix"></div>
+
+    </div>
+
+</div>

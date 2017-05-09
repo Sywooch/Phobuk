@@ -4,6 +4,7 @@ $hover-color: #4da3ff;
 $phone: "only screen and (max-width: 480px)";
 $tablet: "only screen and (max-width: 768px)";
 $desktop: "only screen and (max-width: 960px)";
+$large: "only screen and (max-width: 1200px)";
 
 .card {
   background-color: #fefff5;
@@ -20,9 +21,12 @@ $desktop: "only screen and (max-width: 960px)";
 .backgroung-top {
   background-color: #2E3A3F;
   color: #FBFCFD;
-  padding-top: 7%;
+  padding-top: 6%;
   padding-bottom: 4%;
   margin-bottom: 2%;
+  @media #{$large} {
+    padding-top: 7%;
+  }
   @media #{$desktop} {
     padding-top: 8%;
   }
@@ -90,9 +94,19 @@ $desktop: "only screen and (max-width: 960px)";
   cursor: pointer;
   z-index: 100;
 
+  span {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+
   &.open {
     left: 210px;
+
     & span {
+
       &:nth-child(2) {
         opacity: 0;
         left: 0px;
@@ -141,10 +155,10 @@ $desktop: "only screen and (max-width: 960px)";
   color: white;
   font-size: 20px;
   border-radius: 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   &:hover {
     background-color: white;
-
+    border-bottom: solid $main-color;
   }
   &:focus {
     box-shadow: none;
@@ -156,8 +170,46 @@ $desktop: "only screen and (max-width: 960px)";
   color: $main-color;
   font-size: 20px;
   border-radius: 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  &:hover {
+    border-bottom: solid $main-color;
+
+  }
   &:focus {
     box-shadow: none;
   }
+}
+
+.cameras-box {
+
+  .camera-brand-button {
+    display: inline;
+    margin: 3px;
+    float: left;
+
+  }
+
+  .cameras-list {
+    display: none;
+  }
+
+  &.expanded {
+
+    .cameras-list {
+
+      display: block;
+
+    }
+
+    .cameras-button:after {
+      font-family: FontAwesome;
+      content: "\f106";
+
+    }
+  }
+  .cameras-button:after {
+    font-family: FontAwesome;
+    content: "\f107";
+  }
+
 }

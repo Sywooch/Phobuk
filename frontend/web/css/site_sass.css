@@ -13,9 +13,15 @@
 .backgroung-top {
     background-color: #2E3A3F;
     color: #FBFCFD;
-    padding-top: 7%;
+    padding-top: 6%;
     padding-bottom: 4%;
     margin-bottom: 2%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .backgroung-top {
+        padding-top: 7%;
+    }
 }
 
 @media only screen and (max-width: 960px) {
@@ -89,6 +95,14 @@
     z-index: 100;
 }
 
+#menu-toggle span {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
 #menu-toggle.open {
     left: 210px;
 }
@@ -143,11 +157,12 @@
     color: white;
     font-size: 20px;
     border-radius: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .btn-site:hover {
     background-color: white;
+    border-bottom: solid #2E3A3F;
 }
 
 .btn-site:focus {
@@ -159,11 +174,39 @@
     color: #2E3A3F;
     font-size: 20px;
     border-radius: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.btn-site-active:hover {
+    border-bottom: solid #2E3A3F;
 }
 
 .btn-site-active:focus {
     box-shadow: none;
+}
+
+.cameras-box .camera-brand-button {
+    display: inline;
+    margin: 3px;
+    float: left;
+}
+
+.cameras-box .cameras-list {
+    display: none;
+}
+
+.cameras-box.expanded .cameras-list {
+    display: block;
+}
+
+.cameras-box.expanded .cameras-button:after {
+    font-family: FontAwesome;
+    content: "\f106";
+}
+
+.cameras-box .cameras-button:after {
+    font-family: FontAwesome;
+    content: "\f107";
 }
 
 /*# sourceMappingURL=site_sass.css.map */

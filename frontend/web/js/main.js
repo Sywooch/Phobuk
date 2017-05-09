@@ -43,3 +43,10 @@ $('#menu-toggle').click(function () {
         leftMenu.addClass('open');
     }
 });
+
+
+function onToggle(element) {
+    $(element).parent().toggleClass('expanded');
+}
+
+
