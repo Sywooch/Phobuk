@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\models\Post;
-use common\models\PostComment;
 use common\models\PostHasCategory;
 use common\models\PostSearch;
 use common\models\PostWithCategories;
@@ -52,14 +51,6 @@ class PostController extends Controller {
      */
     public function actionView($id) {
 
-        $commentDataProvider = new ActiveDataProvider();
-        $commentDataProvider->query = PostComment::find()
-            ->where('post_id = :id', [
-                'id' => $id
-            ])
-            ->orderBy([
-                'created_at' => SORT_DESC,
-            ]);
         $categories = new ActiveDataProvider();
         $categories->query = PostHasCategory::find()
             ->where('post_id = :id', [
@@ -68,7 +59,6 @@ class PostController extends Controller {
         return $this->render('view', [
             'post' => $this->findModel($id),
             'categories' => $categories,
-            'commentDataProvider' => $commentDataProvider,
         ]);
     }
 

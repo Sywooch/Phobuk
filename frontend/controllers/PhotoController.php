@@ -3,10 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Photo;
-use common\models\PhotoComment;
 use common\models\PhotoSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -57,17 +55,10 @@ class PhotoController extends Controller
      */
     public function actionView($id)
     {
-        $commentDataProvider = new ActiveDataProvider();
-        $commentDataProvider->query = PhotoComment::find()
-            ->where('photo_id = :id', [
-                'id' => $id
-            ])
-            ->orderBy([
-                'created_at' => SORT_DESC,
-            ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'commentDataProvider' => $commentDataProvider,
+
         ]);
     }
 
