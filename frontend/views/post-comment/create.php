@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
             <div class="form-group ">
 
-                <?= Html::submitButton('Dodaj komentarz', ['class' => 'btn btn-primary btn-color']) ?>
+                <?= Html::submitButton('Dodaj komentarz', ['class' => 'btn btn-primary btn-color col-xs-12']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
