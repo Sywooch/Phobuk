@@ -14,8 +14,9 @@ use yii\widgets\ListView;
 $this->title = 'Zaproszenia do znajomych';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="center">
 <h1><?= Html::encode($this->title) ?></h1>
-
+</div>
 <h4>Ilość zaproszeń: <?= $requestsDataProvider->count ?> </h4>
 
 

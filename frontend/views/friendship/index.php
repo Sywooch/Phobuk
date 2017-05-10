@@ -17,8 +17,9 @@ $this->title = 'Znajomi użytkownika: ';
 <div class="friendship-index">
     <?php $query = User::findOne($user);
     $fullName = $query->getFullName(); ?>
+    <div class="center">
     <h1><?= Html::encode($this->title) . $fullName ?></h1>
-
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php if ($user == Yii::$app->user->identity->getId()) { ?>
     <p>

@@ -12,9 +12,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Camera Brands', 'url' => ['index']
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="camera-brand-view">
-
+    <div class="center">
     <h1><?= Html::encode($this->title) ?></h1>
-
+    </div>
 
     <div class="container ">
         <?= ListView::widget([

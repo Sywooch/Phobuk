@@ -11,9 +11,9 @@ $this->title = $model->name;
 
 ?>
 <div class="category-view">
-
+    <div class="center">
     <h1>Kategoria: #<?= Html::encode($this->title) ?></h1>
-
+    </div>
 
 </div>
 <div class="container ">
