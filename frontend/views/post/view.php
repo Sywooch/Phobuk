@@ -33,20 +33,18 @@ JS;
 $this->registerJs($js, View::POS_READY);
 ?>
 
-<div class="col-sm-8 col-sm-offset-2 thumbnail thumbnail-color">
-    <div id="modal-placeholder"></div>
-        <div class="post-view">
-            <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
+<div class=" col-xs-12 col-sm-12 col-md-8 col-md-offset-2 ">
+    <div class="card">
+        <div id="modal-placeholder"></div>
 
-            <div style="text-align: center; padding-bottom: 15px">
-                <?= FA::icon('calendar'); ?>
-                <?= $post->created_at ?>
-                <?= Html::a(FA::icon('user') . ' ' . $post->user->username, ['/profile/', 'id' => $post->user->getId()], [
-                    'class' => 'btn btn-default btn-sm'
-                ]) ?>
-                <?= Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, ['/post/view', 'id' => $post->id], [
-                    'class' => 'btn btn-default btn-sm'
-                ]) ?>
+        <div class="post-view ">
+
+            <div class="caption">
+                <?php if (!$post->photo == null) {
+                    echo Html::img('/' . $post->photo->photo, ['class' => 'img-responsive img-center ']);
+                } ?>
+            </div>
+            <div class="col-xs-12">
                 <?php if (Yii::$app->user->identity->getId() == $post->user->id) { ?>
                     <div class="btn-group pull-right" role="group">
                         <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/post/update', 'id' => $post->id], [
@@ -62,32 +60,50 @@ $this->registerJs($js, View::POS_READY);
                     </div>
                 <?php } ?>
             </div>
-            <div class="row" style="text-align: center">
-                <?php foreach ($categories->models as $model) {
-                    $query = \common\models\Category::findOne($model->category_id);
-                    $category_name = $query->name;
-                    echo Html::a('#' . $category_name, ['/category/view', 'id' => $model->category->id], [
-                        'class' => 'btn btn-default btn-sm']);
-                    echo ' ';
-                } ?>
+            <div class="col-xs-12">
+                <div class="title">
+                    <h2><?= Html::encode($this->title) ?></h2>
+                </div>
             </div>
-            <div class="row ">
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-2 col-sm-offset-2">
+                    <?= Html::img('/' . $post->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']); ?>
+                </div>
+                <div class="col-xs-8 col-sm-6">
+                    <?= Html::a(FA::icon('user') . ' ' . $post->user->getFullName(), ['/profile/', 'id' => $post->user->getId()], [
+                        'class' => 'btn btn-default btn-sm']) ?>
+                    <p>  <?= FA::icon('calendar'); ?>
+                        <?= $post->created_at ?>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 center">
+                    <?php foreach ($categories->models as $model) {
+                        $query = \common\models\Category::findOne($model->category_id);
+                        $category_name = $query->name;
+                        echo Html::a('#' . $category_name, ['/category/view', 'id' => $model->category->id], [
+                            'class' => 'btn btn-default btn-sm']);
+                        echo ' ';
+                    } ?>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
                     <?= $post->text ?>
                 </div>
             </div>
 
-            <div class="caption">
-                <?php if (!$post->photo == null) {
-                    echo Html::img('/' . $post->photo->photo, ['class' => 'img-responsive img-center ']);
-                } ?>
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <?= CommentsListWidget::widget([
+                        'model' => $post,
+                        'id' => $id]) ?>
+                </div>
             </div>
-            <br>
-
-            <?= CommentsListWidget::widget([
-                'model' => $post,
-                'commentDataProvider' => $commentDataProvider]) ?>
-
-
         </div>
+    </div>
 </div>

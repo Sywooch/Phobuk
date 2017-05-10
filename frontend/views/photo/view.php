@@ -29,53 +29,70 @@ $js = <<<JS
 JS;
 $this->registerJs($js, View::POS_READY);
 ?>
-<div class="photo-view">
-    <div id="modal-placeholder"></div>
-    <div class="col-sm-8 col-sm-offset-2 thumbnail">
-    <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
+<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+    <div class="card">
+        <div id="modal-placeholder"></div>
 
+        <div class="caption">
+            <?= Html::img('/' . $model->photo, ['class' => 'center-block img-fluid img-responsive img-center']); ?>
+        </div>
+        <div class="col-xs-12">
+            <?php if (Yii::$app->user->identity->getId() == $model->user->id) { ?>
+                <div class="btn-group pull-right" role="group">
+                    <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/photo/update', 'id' => $model->id], [
+                        'id' => 'update-photo-btn',
+                        'class' => 'btn btn-default btn-sm'
+                    ]) ?>
+                    <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],
+                        ['class' => 'btn btn-default btn-sm', 'data' => [
+                            'confirm' => 'Jesteś pewien, że chcesz usunąć to zdjęcie?',
+                            'method' => 'post',],
+                        ]) ?>
+                </div>
+            <?php } ?>
+        </div>
 
-        <div style="text-align: center">
+        <div class="col-xs-12">
+            <div class="title">
+                <h2><?= Html::encode($this->title) ?></h2>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-xs-4 col-sm-2 col-sm-offset-2">
 
-        <?= FA::icon('calendar'); ?>
-        <?= Yii::$app->formatter->asDatetime($model->created_at) ?>
+                <?= Html::img('/' . $model->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']); ?>
+            </div>
 
-        <?= Html::a(FA::icon('user') . ' ' . $model->user->username, ['/profile/', 'id' => $model->user->getId()], [
-            'class' => 'btn btn-default btn-sm'
-        ]) ?>
+            <div class="col-xs-8 col-sm-6">
 
-        <?= Html::a('#' . $model->category->name, ['/category/view', 'id' => $model->category->id], [
-            'class' => 'btn btn-default btn-sm'
-        ]) ?>
-            <?= Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, ['/photo/view', 'id' => $model->id], [
-                'class' => 'btn btn-default btn-sm'
-            ]) ?>
-
-        <?php if (Yii::$app->user->identity->getId() == $model->user->id) { ?>
-            <div class="btn-group pull-right" role="group">
-                <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/photo/update', 'id' => $model->id], [
-                    'id' => 'update-photo-btn',
+                <?= Html::a(FA::icon('user') . ' ' . $model->user->getFullName(), ['/profile/', 'id' => $model->user->getId()], [
                     'class' => 'btn btn-default btn-sm'
                 ]) ?>
-                <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],
-                    ['class' => 'btn btn-default btn-sm', 'data' => [
-                        'confirm' => 'Jesteś pewien, że chcesz usunąć to zdjęcie?',
-                        'method' => 'post',
-                    ],
-                    ]) ?>
+
+                <p>  <?= FA::icon('calendar'); ?>
+                    <?= $model->created_at ?>
+                </p>
 
             </div>
-        <?php } ?>
+        </div>
+
+        <div class="row ">
+            <div class="col-xs-12 center">
+                <?= Html::a('#' . $model->category->name, ['/category/view', 'id' => $model->category->id], [
+                    'class' => 'btn btn-default btn-sm'
+                ]) ?>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <?= CommentsListWidget::widget([
+                    'model' => $model,
+                    'id' => $id]) ?>
+            </div>
+        </div>
     </div>
-    <br>
-        <?= Html::img('/' . $model->photo, ['class' => 'center-block img-fluid img-responsive img-center']); ?>
-        <br>
-
-
-        <?= CommentsListWidget::widget([
-            'model' => $model,
-            'commentDataProvider' => $commentDataProvider]) ?>
-</div>
 </div>
 
