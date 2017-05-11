@@ -11,14 +11,14 @@ use yii\widgets\ListView;
 $this->title = 'Wydarzenia';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="event-index">
 
+    <div class="title">
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-
 </div>
-<div class="container ">
+
+    <div class="container">
     <div class="row">
 
         <?= ListView::widget([
@@ -30,3 +30,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
 </div>
+</div>
+
