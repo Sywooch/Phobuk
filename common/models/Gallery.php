@@ -41,6 +41,11 @@ class Gallery extends \yii\db\ActiveRecord
         ];
     }
 
+    public function showStatusLabel() {
+        $labels = self::getTypeLabels();
+        return $labels[$this->type];
+    }
+
     public function behaviors() {
         return [
             'timestamp' => [
@@ -87,7 +92,12 @@ class Gallery extends \yii\db\ActiveRecord
         ];
     }
 
-
+    /**
+     * @return GalleryQuery
+     */
+    public static function find() {
+        return new GalleryQuery(get_called_class());
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -105,6 +115,9 @@ class Gallery extends \yii\db\ActiveRecord
         return $this->hasMany(PhotoInGallery::className(), ['gallery_id' => 'id']);
     }
 
+    public function isPublic() {
+        return $this->type === Gallery::TYPE_PUBLIC;
+    }
 
     public function getPhotos()
     {
