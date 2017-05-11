@@ -37,7 +37,6 @@ use yii\web\IdentityInterface;
  * @property Post[] $posts
  * @property City $city
  * @property Photo $photoAvatar
- * @property UserHasPhotoType[] $userHasPhotoTypes
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -320,14 +319,6 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Photo::className(), ['id' => 'avatar']);
     }
 
-    public function getPhotoTypes() {
-        return $this->hasMany(PhotoType::className(), ['id' => 'photo_type_id'])
-            ->viaTable('user_has_photo_type', ['user_id' => 'id']);
-    }
-
-    public function getUserHasPhotoTypes() {
-        return $this->hasMany(UserHasPhotoType::className(), ['user_id' => 'id']);
-    }
 
     public function getPhotoComments() {
         return $this->hasMany(PhotoComment::className(), ['user_id' => 'id']);
