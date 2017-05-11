@@ -7,7 +7,7 @@ $desktop: "only screen and (max-width: 960px)";
 $large: "only screen and (max-width: 1200px)";
 
 .card {
-  background-color: #fefff5;
+  background-color: white;
   border-color: #d1dfe6;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 16px !important;
@@ -16,6 +16,18 @@ $large: "only screen and (max-width: 1200px)";
     padding: 20px;
 
   }
+
+}
+
+.title {
+  text-align: center;
+  a {
+    color: black;
+  }
+}
+
+.center {
+  text-align: center;
 }
 
 .backgroung-top {
@@ -154,6 +166,13 @@ $large: "only screen and (max-width: 1200px)";
   background-color: $main-color;
   color: white;
   font-size: 20px;
+  @media #{$tablet} {
+    font-size: 18px;
+  }
+  @media #{$phone} {
+    font-size: 15px;
+  }
+
   border-radius: 0;
   margin-bottom: 20px;
   &:hover {
@@ -169,11 +188,17 @@ $large: "only screen and (max-width: 1200px)";
   background-color: white;
   color: $main-color;
   font-size: 20px;
+  @media #{$tablet} {
+    font-size: 18px;
+  }
+  @media #{$phone} {
+    font-size: 15px;
+  }
+
   border-radius: 0;
   margin-bottom: 20px;
   &:hover {
     border-bottom: solid $main-color;
-
   }
   &:focus {
     box-shadow: none;

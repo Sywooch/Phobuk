@@ -1,37 +1,35 @@
 <?php
 
-use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\GallerySearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $photoForm \frontend\models\PhotoForm */
+/* @var $galleryListDataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Galleries';
+
+$this->title = 'Galerie';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gallery-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="col-xs-12">
+        <div class="title">
+            <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Gallery', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        </div>
+    </div>
 
-            'id',
-            'type',
-            'user_id',
+    <div class="container ">
+        <div class="row">
 
-            'title',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+            <?= ListView::widget([
+                'dataProvider' => $galleryListDataProvider,
+                'itemView' => '_galleryList',
+                'viewParams' => [],
+                'summary' => '',
+            ]);
+            ?>
+        </div>
+    </div>
 </div>
