@@ -36,14 +36,33 @@ class GalleryController extends Controller {
      * Lists all Gallery models.
      * @return mixed
      */
+    // SELECT * FROM gallery WHERE (type =1 OR (type=0 AND user_id =9))
+
     public function actionIndex() {
+        $user = Yii::$app->user->identity->getId();
+
         $searchModel = new GallerySearch();
+
+        $query = Gallery::find()
+            ->publicType()
+            ->privateForUser($user)
+            ->orderBy([
+                'created_at' => SORT_DESC,
+            ]);
+        $galleryListDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'galleryListDataProvider' => $galleryListDataProvider
 
         ]);
     }
@@ -54,10 +73,6 @@ class GalleryController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-//        $photos = new ActiveDataProvider();
-//        $photos->query = PhotoInGallery::find()
-//            ->where('gallery_id = :id', [
-//                'id' => $id]);
 
         $query = Photo::find()
             ->joinWith('galleries')
@@ -89,7 +104,7 @@ class GalleryController extends Controller {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
 
