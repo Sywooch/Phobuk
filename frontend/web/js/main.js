@@ -28,6 +28,32 @@ $(document).on('click', '#create-new-photo-btn', function () {
     return false;
 });
 
+$(document).on('click', '#create-new-gallery-btn', function () {
+    $.ajax({
+        url: "/gallery/create",
+        type: "POST",
+        dataType: "html",
+        success: function (data) {
+            $('#modal-placeholder').html(data);
+            $('#create-gallery-modal').modal('toggle');
+        }
+    });
+    return false;
+});
+
+$(document).on('click', '#create-new-event-btn', function () {
+    $.ajax({
+        url: "/event/create",
+        type: "POST",
+        dataType: "html",
+        success: function (data) {
+            $('#modal-placeholder').html(data);
+            $('#create-event-modal').modal('toggle');
+        }
+    });
+    return false;
+});
+
 $('#menu-toggle').click(function () {
 
     if ($(this).hasClass('open')) {
@@ -48,5 +74,6 @@ $('#menu-toggle').click(function () {
 function onToggle(element) {
     $(element).parent().toggleClass('expanded');
 }
+
 
 

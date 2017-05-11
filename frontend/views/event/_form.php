@@ -16,14 +16,13 @@ use yii\jui\DatePicker;
 <div class="event-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'event-form',
+        'id' => 'post-form',
         'enableAjaxValidation' => false,
     ]); ?>
-
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-
+    <div class="col-xs-12">
+        <?= $form->field($model, 'title')->textarea(['rows' => 1]) ?>
+    </div>
+    <div class="col-xs-12">
         <?= $form->field($model, 'text')->widget(Widget::className(), [
             'settings' => [
                 'lang' => 'pl',
@@ -36,52 +35,36 @@ use yii\jui\DatePicker;
                 ]
             ]
         ]) ?>
-
     </div>
-    <div class="col-xs-12 col-md-3 col-md-offset-3">
-        <h5><strong>Data wydarzenia</strong></h5>
-        <?php echo DatePicker::widget([
-            'model' => $model,
-            'attribute' => 'date',
-            'language' => 'pl',
-            'dateFormat' => 'yyyy-MM-dd',
-        ]) ?>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
-
-    </div>
-
-    <?php
-    $user = ArrayHelper::map(User::find()->all(), 'id', 'fullName') ?>
+    <div class="col-md-12">
+        <div class="row">
 
 
-    <div class="col-xs-12 col-md-3 col-md-offset-3">
-        <?= $form->field($model, 'users_ids')->checkboxList($user,
-            ['multiple' => true,
-                'options' => [
-                    'item' => function ($index, $label, $name, $checked, $value) {
-                        return 'dupa' . $index;
-                    }
-                ],
-                'itemOptions' => [
-                    'class' => 'switch',
-                    'data' => [
-                        'on-text' => 'ON',
-                        'off-text' => 'OFF',
-                        'on-color' => 'teal'
-                    ],
-                ],
-            ]) ?>
+            <div class="col-md-4">
+                <h5><strong>Data wydarzenia</strong></h5>
+                <?php echo DatePicker::widget([
+                    'model' => $model,
+                    'attribute' => 'date',
+                    'language' => 'pl',
+                    'dateFormat' => 'yyyy-MM-dd',
+                ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
 
-    </div>
+            </div>
+            <div class="col-md-4">
+                <?php $user = ArrayHelper::map(User::find()->all(), 'id', 'fullName') ?>
+                <?= $form->field($model, 'users_ids')->checkboxList($user,
+                    ['multiple' => true]) ?>
+            </div>
 
-
-    <div class="col-xs-12 col-md-6 col-md-offset-5">
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Utwórz' : 'Akualizuj', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
+    <div class="form-group col-xs-offset-5">
+        <?= Html::submitButton($model->isNewRecord ? 'Utwórz' : 'Aktualizuj', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+
     <?php ActiveForm::end(); ?>
 
 </div>

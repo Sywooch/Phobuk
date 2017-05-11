@@ -1,21 +1,22 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap\Modal;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Event */
 
-$this->title = 'Update Event: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Events', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="event-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div style="color: black">
+    <?php Modal::begin([
+        'id' => 'update-event-modal',
+        'header' => '<div class="center"> <h3>Aktualizuja wydarzenia</h3></div>',
+        'size' => Modal::SIZE_LARGE
+    ]); ?>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $model
     ]) ?>
 
+    <?php Modal::end(); ?>
 </div>

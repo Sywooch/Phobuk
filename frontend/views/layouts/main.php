@@ -79,13 +79,17 @@ AppAsset::register($this);
                         <div class="left-menu-ul">
                             <p> <?= Html::a(FA::icon('user') . ' Moi znajomi', ['/friendship/', 'id' => Yii::$app->user->identity->getId()]) ?></p>
                             <p><a href="/event"><?= FA::icon('calendar') ?> Wydarzenia</a></p>
-                            <p> <?= Html::a(FA::icon('camera-retro') . ' Dodaj zdjęcie', ['/photo/create'], [
+                            <p><a href="/gallery"><?= FA::icon('camera') ?> Galerie</a></p>
+                            <br>
+                            <p> <?= Html::a(FA::icon('picture-o') . ' Dodaj zdjęcie', ['/photo/create'], [
                                     'id' => 'create-new-photo-btn']) ?></p>
                             <p><?= Html::a(FA::icon('newspaper-o') . ' Dodaj post', ['/post/create'], [
                                     'id' => 'create-new-post-btn']) ?></p>
                             <p><?= Html::a(FA::icon('calendar-o') . ' Dodaj wydarzenie', ['/event/create'], [
                                     'id' => 'create-new-event-btn']) ?></p>
-                            <p><a href="/gallery"><?= FA::icon('camera') ?> Galerie</a></p>
+                            <p><?= Html::a(FA::icon('camera-retro') . ' Dodaj galerię', ['/gallery/create'], [
+                                    'id' => 'create-new-gallery-btn']) ?></p>
+
                         </div>
 
                     </div>
