@@ -1,23 +1,25 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Gallery */
-/* @var $photoForm \frontend\models\PhotoForm */
 
-$this->title = 'Create Gallery';
-$this->params['breadcrumbs'][] = ['label' => 'Galleries', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = 'Dodaj galerię';
+
 ?>
-<div class="gallery-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div style="color: black">
+    <?php Modal::begin([
+        'id' => 'create-gallery-modal',
+        'header' => '<div class="center"> <h3>Dodaj nową galerię</h3></div>',
+        'size' => Modal::SIZE_LARGE
+    ]); ?>
 
     <?= $this->render('_form', [
-        'model' => $model,
-
+        'model' => $model
     ]) ?>
 
+    <?php Modal::end(); ?>
 </div>

@@ -1,34 +1,58 @@
 <?php
-
 use rmrevin\yii\fontawesome\FA;
-use yii\bootstrap\Carousel;
 use yii\helpers\Html;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Gallery */
 /* @var $photosProvider \yii\data\ActiveDataProvider */
-/**/
-/* @var $photoForm \frontend\models\PhotoForm */
 
 $this->title = $model->title;
+$id = $model->id;
+
+$js = <<<JS
+$('.gallery').modaal({
+    type: 'image',
+
+    
+});
+
+
+   $(document).on('click', '#update-gallery-btn', function() {
+    $.ajax({
+        url: "/gallery/update?id=" + $id,
+        type: "POST",
+        dataType: "html",
+        success: function(data) {
+            $('#modal-placeholder').html(data);
+            $('#update-gallery-modal').modal('toggle');
+        }
+    });
+
+    return false;
+});
+JS;
+$this->registerJs($js, View::POS_READY);
+
+
 
 ?>
-<div class="gallery-view">
-    <div class="col-sm-8 col-sm-offset-2 thumbnail thumbnail-color">
+
+<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+    <div class="card">
         <div id="modal-placeholder"></div>
-        <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
 
-        <div style="text-align: center; padding-bottom: 15px">
-            <?= FA::icon('calendar'); ?>
-            <?= $model->created_at ?>
+        <div class="col-xs-12">
+            <div class="title">
+                <h2><?= Html::encode($this->title) ?></h2>
+            </div>
+        </div>
 
-            <?= Html::a(FA::icon('user') . ' ' . $model->user->username, ['/profile/', 'id' => $model->user->getId()], [
-                'class' => 'btn btn-default btn-sm'
-            ]) ?>
+        <div class="col-xs-12">
             <?php if (Yii::$app->user->identity->getId() == $model->user->id) { ?>
                 <div class="btn-group pull-right" role="group">
                     <?= Html::a(FA::icon('pencil') . ' Edytuj', ['/gallery/update', 'id' => $model->id], [
-                        'id' => 'update-post-btn',
+                        'id' => 'update-gallery-btn',
                         'class' => 'btn btn-default btn-sm'
                     ]) ?>
                     <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],
@@ -41,64 +65,37 @@ $this->title = $model->title;
             <?php } ?>
         </div>
 
-        <div class="w2-row" style="text-align: center">
-            <?php
+        <div class="row">
+            <div class="col-xs-12 center">
+                <?= FA::icon('calendar') . ' ' . $model->created_at ?>
 
-            foreach ($photosProvider->models as $photo) { ?>
-                <div class="col-xs-12 col-sm-6 col-md-4 padding-wrapper-fix gall-img">
-
-                    <?php
-                    echo Html::img('/' . $photo->photo, ['class' => 'img-responsive img-gallery', 'alt' => $photo->title, 'data-toggle' => 'modal', 'data-target' => '#exampleModalLong']);
-                    ?>
-                </div>
-            <?php } ?>
-        </div>
-        <?php
-
-        $items = [];
-
-        foreach ($photosProvider->models as $photo) {
-            $items[] =
-                [
-                    'content' => Html::img('/' . $photo->photo, ['class' => 'img-responsive img-gallery', 'title' => $photo->title]),
-                    'caption' => $photo->title
-                ];
-        }
-        ?>
-
-    </div>
+                <?= Html::a(FA::icon('user') . ' ' . $model->user->username, ['/profile/', 'id' => $model->user->getId()], [
+                    'class' => 'btn btn-default btn-sm'
+                ]) ?>
 
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title"></h3>
-                </div>
-                <div class="modal-body">
+                <?php if ($model->isPublic()) {
+                    echo FA::icon('globe');
+                } else
+                    echo FA::icon('user-secret');
 
-                    <?php echo Carousel::widget([
-
-                        'options' => [
-                            'class' => 'slide, carousel-inner',
-                            'data-interval' => true,
-                            'id' => 'modalCarousel',
-
-
-                        ],
-                        'items' => $items,
-
-                    ]); ?>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                echo ' ' . $model->showStatusLabel() ?>
             </div>
         </div>
-    </div>
 
+        <div class="row">
+            <div class="col-xs-12">
+                <?php
+                foreach ($photosProvider->models as $photo) { ?>
+                    <div class="col-xs-12 col-sm-6 col-md-4 padding-wrapper-fix gall-img">
+
+                        <?php
+                        echo Html::a((Html::img('/' . $photo->photo, ['class' => 'img-gallery ', 'aria-label' => $photo->title])), '/' . $photo->photo, ['class' => 'img-gallery  gallery', 'rel' => 'gallery', 'aria-label' => $photo->title]);
+                        ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+
+    </div>
+</div>
