@@ -4,7 +4,6 @@ namespace frontend\controllers;
 
 use common\models\Post;
 use common\models\PostHasCategory;
-use common\models\PostSearch;
 use common\models\PostWithCategories;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -30,19 +29,6 @@ class PostController extends Controller {
         ];
     }
 
-    /**
-     * Lists all Post models.
-     * @return mixed
-     */
-    public function actionIndex() {
-        $searchModel = new PostSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Post model.

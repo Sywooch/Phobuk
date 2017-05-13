@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\models\PhotoComment;
-use common\models\PhotoCommentSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -27,19 +26,6 @@ class PhotoCommentController extends Controller {
         ];
     }
 
-    /**
-     * Lists all PhotoComment models.
-     * @return mixed
-     */
-    public function actionIndex() {
-        $searchModel = new PhotoCommentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Creates a new PhotoComment model.
@@ -53,8 +39,6 @@ class PhotoCommentController extends Controller {
 
         if ($model->save()) {
             return $this->redirect(Yii::$app->request->referrer);
-        } else {
-            var_dump($model->attributes);
         }
 
     }

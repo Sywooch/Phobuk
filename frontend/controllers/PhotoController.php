@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\models\Photo;
-use common\models\PhotoSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -30,23 +29,6 @@ class PhotoController extends Controller
         ];
     }
 
-    /**
-     * Lists all Photo models.
-     * @return mixed
-     */
-
-
-    public function actionIndex()
-    {
-        $searchModel = new PhotoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Photo model.
@@ -82,10 +64,7 @@ class PhotoController extends Controller
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-
-
         }
-
 
         return $this->renderAjax('create', [
             'model' => $model,

@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\models\PostComment;
-use common\models\PostCommentSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -25,20 +24,6 @@ class PostCommentController extends Controller {
                 ],
             ],
         ];
-    }
-
-    /**
-     * Lists all PostComment models.
-     * @return mixed
-     */
-    public function actionIndex() {
-        $searchModel = new PostCommentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**
