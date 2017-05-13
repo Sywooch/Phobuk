@@ -31,6 +31,7 @@ AppAsset::register($this);
 
     <div class="wrap">
         <?php
+        if (!Yii::$app->user->isGuest) {
         NavBar::begin([
             'brandLabel' => Yii::$app->name,
             'brandUrl' => Yii::$app->homeUrl,
@@ -41,26 +42,25 @@ AppAsset::register($this);
         $menuItems = [
             ['label' => FA::icon('home') . ' Home', 'url' => ['/site/index']],
         ];
-        if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Rejestracja', 'url' => ['/site/signup']];
             $menuItems[] = ['label' => 'Logowanie', 'url' => ['/site/login']];
-        } else {
             $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile', 'id' => Yii::$app->user->getId()]];
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ];
-        }
+
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'encodeLabels' => false,
             'items' => $menuItems,
         ]);
-        if (!Yii::$app->user->isGuest) {
+
             echo InvitationButton::widget();
-        }
-        NavBar::end(); ?>
+
+            NavBar::end();
+        } ?>
 
         <div class="all-content container ">
             <section>

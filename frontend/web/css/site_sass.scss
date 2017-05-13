@@ -6,6 +6,8 @@ $tablet: "only screen and (max-width: 768px)";
 $desktop: "only screen and (max-width: 960px)";
 $large: "only screen and (max-width: 1200px)";
 
+@import url('https://fonts.googleapis.com/css?family=Kanit:800');
+
 .card {
   background-color: white;
   border-color: #d1dfe6;
@@ -163,7 +165,7 @@ $large: "only screen and (max-width: 1200px)";
 }
 
 .btn-site {
-  background-color: $main-color;
+  background-color: lighten($main-color, 45%);
   color: white;
   font-size: 20px;
   @media #{$tablet} {
@@ -171,6 +173,8 @@ $large: "only screen and (max-width: 1200px)";
   }
   @media #{$phone} {
     font-size: 15px;
+    padding-left: 0;
+    padding-right: 10px;
   }
 
   border-radius: 0;
@@ -193,6 +197,8 @@ $large: "only screen and (max-width: 1200px)";
   }
   @media #{$phone} {
     font-size: 15px;
+    padding-left: 0;
+    padding-right: 10px;
   }
 
   border-radius: 0;
@@ -238,3 +244,83 @@ $large: "only screen and (max-width: 1200px)";
   }
 
 }
+
+.ias-trigger {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #adadad;
+  @media #{$tablet} {
+    left: 40%;
+  }
+
+  & a {
+    color: #333;
+
+  }
+
+}
+
+.pager-margin {
+  padding: 20px;
+}
+
+.about-title {
+  color: $main-color;
+  font-family: 'Kanit', Helvetica, Arial, sans-serif;
+  font-size: 110px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  position: relative;
+  margin: 5px;
+  text-shadow: 3px 3px 3px rgba(black, 0.08);
+  filter: drop-shadow(6px 6px 6px rgba(black, 0.21));
+
+  @media #{$large} {
+    font-size: 110px;
+    letter-spacing: 8px;
+  }
+  @media #{$desktop} {
+    font-size: 100px;
+    letter-spacing: 7px;
+  }
+  @media #{$tablet} {
+    font-size: 90px;
+    letter-spacing: 6px;
+  }
+  @media #{$phone} {
+    font-size: 70px;
+    letter-spacing: 2px;
+  }
+}
+
+.subtext {
+  color: lighten($main-color, 20%);
+  font-weight: bold;
+  font-size: 25px;
+  letter-spacing: 10px;
+  @media #{$large} {
+    font-size: 25px;
+    letter-spacing: 8px;
+  }
+  @media #{$desktop} {
+    font-size: 25px;
+    letter-spacing: 7px;
+  }
+  @media #{$tablet} {
+    font-size: 20px;
+    letter-spacing: 5px;
+  }
+  @media #{$phone} {
+    font-size: 18px;
+    letter-spacing: 5px;
+  }
+
+}
+

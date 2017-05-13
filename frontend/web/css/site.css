@@ -35,15 +35,15 @@ h1 {
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
     color: #c4dfff !important;
-    background-color: #2c363b !important;;
+    background-color: #2c363b !important;
     border-radius: 10px;
 }
 
 .padding-wrapper-fix {
-    padding-left: 0;
-    padding-right: 0;
-    margin-right: 0;
-    margin-left: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
 
 }
 
@@ -133,9 +133,6 @@ a.desc:after {
     object-position: center;
 }
 
-.row {
-    margin-bottom: 3%;
-}
 
 .avatar-small {
     width: 100%;
@@ -166,10 +163,6 @@ a.desc:after {
     margin: 1em 0;
 }
 
-.row-photo {
-
-    position: absolute;
-}
 
 .thumbnail-img {
     position: relative;
@@ -281,5 +274,4 @@ div.required label.control-label:after {
     content: " * (wymagane)";
     color: #4da3ff;
 }
-
 

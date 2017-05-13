@@ -2,15 +2,21 @@
 
 /* @var $this yii\web\View */
 
-use yii\helpers\Html;
+$this->title = 'Witamy na Phobuku';
 
-$this->title = 'About';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="site-about ">
 
-    <p>This is the About page. You may modify the following file to customize its content:</p>
+    <div class="center">
+        <h1 class="about-title">
+            PHOBUK
+        </h1>
+        <div class="subtext">Witamy na Phobuku - portalu społecznościowym dla fotografów!</div>
+    </div>
+    <div class="col-xs-12">
+        <?= $this->render('login', [
+            'model' => $model,
 
-    <code><?= __FILE__ ?></code>
+        ]) ?>
+    </div>
 </div>

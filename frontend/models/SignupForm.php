@@ -49,7 +49,7 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Nazwa uzytkownika',
+            'username' => 'Nazwa użytkownika',
             'first_name' => 'Imię',
             'last_name' => 'Nazwisko',
             'level' => 'Typ fotografa',
