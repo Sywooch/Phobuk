@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c916597ea80a1bb42f622495aff5c51",
+    "content-hash": "1788f6137aa1a31e206fda2fce3e5ad5",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -124,40 +124,6 @@
             ]
         },
         {
-            "name": "bower-asset/jquery-infinite-scroll",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/infinite-scroll/infinite-scroll.git",
-                "reference": "f0d9eecb55a428b2fd4027964a22b84633ba6e3e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/infinite-scroll/infinite-scroll/zipball/f0d9eecb55a428b2fd4027964a22b84633ba6e3e",
-                "reference": "f0d9eecb55a428b2fd4027964a22b84633ba6e3e",
-                "shasum": ""
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "jquery.infinitescroll.js",
-                "bower-asset-ignore": [
-                    "**/.*",
-                    "node_modules",
-                    "bower_components",
-                    "test",
-                    "tests"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "jQuery Infinite Scroll Plugin",
-            "keywords": [
-                "infinitescroll",
-                "jquery"
-            ]
-        },
-        {
             "name": "bower-asset/jquery-ui",
             "version": "1.11.4",
             "source": {
@@ -184,16 +150,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.3.5",
+            "version": "3.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/Inputmask.git",
-                "reference": "ed27356d1b22366be48c4e7b8d038b9649bd4ab0"
+                "reference": "e42852f4afa01a80815394a5b2f9ce504c1a8d0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/ed27356d1b22366be48c4e7b8d038b9649bd4ab0",
-                "reference": "ed27356d1b22366be48c4e7b8d038b9649bd4ab0",
+                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/e42852f4afa01a80815394a5b2f9ce504c1a8d0b",
+                "reference": "e42852f4afa01a80815394a5b2f9ce504c1a8d0b",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +173,6 @@
                     "./dist/inputmask/inputmask.date.extensions.js",
                     "./dist/inputmask/inputmask.numeric.extensions.js",
                     "./dist/inputmask/inputmask.phone.extensions.js",
-                    "./dist/inputmask/inputmask.regex.extensions.js",
                     "./dist/inputmask/jquery.inputmask.js",
                     "./dist/inputmask/global/document.js",
                     "./dist/inputmask/global/window.js",
@@ -232,7 +197,7 @@
             "license": [
                 "http://opensource.org/licenses/mit-license.php"
             ],
-            "description": "jquery.inputmask is a jquery plugin which create an input mask.",
+            "description": "Inputmask is a javascript library which creates an input mask.  Inputmask can run against vanilla javascript, jQuery and jqlite.",
             "keywords": [
                 "form",
                 "input",
@@ -412,32 +377,28 @@
             "time": "2017-03-13T06:30:53+00:00"
         },
         {
-            "name": "nirvana-msu/yii2-infinite-scroll",
+            "name": "kop/yii2-scroll-pager",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nirvana-msu/yii2-infinite-scroll.git",
-                "reference": "a92a2afbb732bd0310cf78225a1c5429358ceb7b"
+                "url": "https://github.com/kop/yii2-scroll-pager.git",
+                "reference": "9b9727ce441fbfc487044535ab6ce0b7694d810b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nirvana-msu/yii2-infinite-scroll/zipball/a92a2afbb732bd0310cf78225a1c5429358ceb7b",
-                "reference": "a92a2afbb732bd0310cf78225a1c5429358ceb7b",
+                "url": "https://api.github.com/repos/kop/yii2-scroll-pager/zipball/9b9727ce441fbfc487044535ab6ce0b7694d810b",
+                "reference": "9b9727ce441fbfc487044535ab6ce0b7694d810b",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/jquery-infinite-scroll": "*",
+                "php": ">=5.4.0",
+                "webcreate/jquery-ias": "^2.2.1",
                 "yiisoft/yii2": "*"
             },
             "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "nirvana\\infinitescroll\\": ""
+                    "kop\\y2sp\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -446,19 +407,22 @@
             ],
             "authors": [
                 {
-                    "name": "Alexander Stepanov",
-                    "email": "student_vmk@mail.ru"
+                    "name": "Ivan Koptiev",
+                    "email": "ivan.koptiev@codex.systems",
+                    "role": "Developer"
                 }
             ],
-            "description": "Yii2 extension for infinite-scroll jQuery plugin",
+            "description": "Infinite AJAX scrolling for Yii2 ListView widget",
+            "homepage": "http://kop.github.io/yii2-scroll-pager/",
             "keywords": [
-                "infinite-scroll",
-                "jquery",
-                "plugin",
-                "widget",
+                "pager",
+                "pagination",
+                "scroll",
+                "scrolling",
+                "yii",
                 "yii2"
             ],
-            "time": "2016-10-26 23:15:52"
+            "time": "2016-07-06 19:56:33"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
@@ -514,16 +478,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.7",
+            "version": "v5.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/9a06dc570a0367850280eefd3f1dc2da45aef517",
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +528,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-04-20T17:32:18+00:00"
+            "time": "2017-05-01T15:54:03+00:00"
         },
         {
             "name": "vova07/yii2-imperavi-widget",
@@ -627,6 +591,46 @@
                 "yii2"
             ],
             "time": "2015-12-10T21:16:23+00:00"
+        },
+        {
+            "name": "webcreate/jquery-ias",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webcreate/infinite-ajax-scroll.git",
+                "reference": "1549e76b810a3a7dc7f5e259bbca30290ba5b554"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webcreate/infinite-ajax-scroll/zipball/1549e76b810a3a7dc7f5e259bbca30290ba5b554",
+                "reference": "1549e76b810a3a7dc7f5e259bbca30290ba5b554",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fieg",
+                    "email": "jeroen@fieg.nl",
+                    "homepage": "http://webcreate.nl"
+                }
+            ],
+            "description": "Infinite AJAX Scroll: A jQuery plugin that turns your server-side pagination into an infinite scrolling one using AJAX",
+            "homepage": "http://infiniteajaxscroll.com",
+            "keywords": [
+                "ajax",
+                "ias",
+                "infinite",
+                "jquery",
+                "pagination",
+                "scroll",
+                "scrolling"
+            ],
+            "time": "2016-08-26T10:37:37+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -1240,7 +1244,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nirvana-msu/yii2-infinite-scroll": 20
+        "kop/yii2-scroll-pager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
