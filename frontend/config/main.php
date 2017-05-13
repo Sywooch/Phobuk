@@ -33,6 +33,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['pattern' => 'signup', 'route' => 'site/signup'],
+                ['pattern' => 'login', 'route' => 'site/login'],
             ],
         ],
     ],
