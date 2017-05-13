@@ -7,7 +7,6 @@ use common\models\Photo;
 use common\models\User;
 use common\models\UserCamera;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\web\NotFoundHttpException;
 
@@ -37,14 +36,6 @@ class ProfileController extends \yii\web\Controller {
             throw new NotFoundHttpException("User not exists");
         }
 
-        $photoDataProvider = new ActiveDataProvider();
-        $photoDataProvider->query = Photo::find()
-            ->where('user_id = :userID', [
-                'userID' => $user->getId()])
-            ->orderBy([
-                'created_at' => SORT_DESC,
-            ]);
-
         $friendship = Friendship::find()
             ->forUsers(Yii::$app->user->identity->getId(), $id)
             ->one();
@@ -66,7 +57,10 @@ WHERE user_id = $userId ORDER BY created_at DESC";
 
         $dataProvider = new SqlDataProvider([
             'sql' => $rawSQL,
-            'totalCount' => $count
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         /** @var Photo $photoAvatar */
@@ -74,7 +68,6 @@ WHERE user_id = $userId ORDER BY created_at DESC";
             'user' => $user,
             'city' => $user->city,
             'avatar' => $user->photoAvatar,
-            'photoDataProvider' => $photoDataProvider,
             'dataProvider' => $dataProvider,
             'isCurrentUser' => $user->getId() === Yii::$app->user->identity->getId(),
             'friendship' => $friendship,

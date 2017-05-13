@@ -3,10 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Category;
-use common\models\CategorySearch;
-use common\models\Photo;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -30,19 +27,7 @@ class CategoryController extends Controller {
         ];
     }
 
-    /**
-     * Lists all Category models.
-     * @return mixed
-     */
-    public function actionIndex() {
-        $searchModel = new CategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Category model.
@@ -50,13 +35,6 @@ class CategoryController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
-        $photoDataProvider = new ActiveDataProvider();
-        $photoDataProvider->query = Photo::find()
-            ->where('category_id = :categoryId', [
-                'categoryId' => $id])
-            ->orderBy([
-                'created_at' => SORT_DESC,
-            ]);
 
 
         $rawSQL = "SELECT * from (select 'photo' as 'type', p.id, photo, title,'' as 'text', user_id, created_at, category_id from photo p 
@@ -73,21 +51,18 @@ WHERE category_id =$id ORDER BY created_at DESC";
 
         $dataProvider = new SqlDataProvider([
             'sql' => $rawSQL,
-            'totalCount' => $count
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'photoDataProvider' => $photoDataProvider,
             'dataProvider' => $dataProvider,
         ]);
     }
-//
-//select * from (select 'photo' as 'type', p.id, photo, title,'', user_id, created_at from photo p
-//UNION select 'post' as 'type', d.id, photo.photo, d.title, text, d.user_id, d.created_at from post d
-//join photo on photo.user_id = d.user_id) phopost
-//WHERE user_id = 1 ORDER BY created_at
     /**
      * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

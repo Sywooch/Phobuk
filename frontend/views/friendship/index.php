@@ -1,18 +1,17 @@
 <?php
 
 use common\models\User;
+use kop\y2sp\ScrollPager;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\FriendshipSearch */
 /* @var $confirmedDataProvider yii\data\ActiveDataProvider */
 /* @var $user \common\models\User */
 
 
 $this->title = 'Znajomi użytkownika: ';
 
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="friendship-index">
     <?php $query = User::findOne($user);
@@ -29,13 +28,27 @@ $this->title = 'Znajomi użytkownika: ';
 
     <h4>Ilość znajomych: <?= $confirmedDataProvider->count ?> </h4>
 
-    <div class="container ">
-        <?= ListView::widget([
-            'dataProvider' => $confirmedDataProvider,
-            'viewParams' => ['user' => $user],
-            'itemView' => '_form',
-            'summary' => '',
-        ]);
-        ?>
+    <div class="col-xs-12">
+        <div class="container">
+            <?= ListView::widget([
+                'dataProvider' => $confirmedDataProvider,
+                'itemView' => '_form',
+                'summary' => '',
+                'viewParams' => ['user' => $user],
+                'itemOptions' => ['class' => 'item'],
+                'id' => 'friend-confirmed-listview-id',
+                'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                'pager' => [
+                    'class' => ScrollPager::className(),
+                    'triggerText' => 'Pokaż więcej',
+                    'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+                ],
+            ]);
+            ?>
+        </div>
     </div>
 </div>
+
+
+
+

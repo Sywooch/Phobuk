@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\models\Gallery;
-use common\models\GallerySearch;
 use common\models\Photo;
 use common\models\PhotoInGallery;
 use frontend\models\PhotoForm;
@@ -36,12 +35,9 @@ class GalleryController extends Controller {
      * Lists all Gallery models.
      * @return mixed
      */
-    // SELECT * FROM gallery WHERE (type =1 OR (type=0 AND user_id =9))
 
     public function actionIndex() {
         $user = Yii::$app->user->identity->getId();
-
-        $searchModel = new GallerySearch();
 
         $query = Gallery::find()
             ->publicType()
@@ -56,12 +52,7 @@ class GalleryController extends Controller {
             ],
         ]);
 
-
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
             'galleryListDataProvider' => $galleryListDataProvider
 
         ]);

@@ -8,11 +8,12 @@
 /* @var $requestsDataProvider yii\data\ActiveDataProvider */
 /* @var $user \common\models\User */
 
+use kop\y2sp\ScrollPager;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
 $this->title = 'Zaproszenia do znajomych';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="center">
 <h1><?= Html::encode($this->title) ?></h1>
@@ -20,15 +21,22 @@ $this->params['breadcrumbs'][] = $this->title;
 <h4>Ilość zaproszeń: <?= $requestsDataProvider->count ?> </h4>
 
 
-<div class="container ">
-    <?= ListView::widget([
-        'dataProvider' => $requestsDataProvider,
-        'viewParams' => ['user' => $user],
-        'itemView' => '_form',
-        'summary' => '',
-    ]);
-    ?>
+<div class="col-xs-12">
+    <div class="container">
+        <?= ListView::widget([
+            'dataProvider' => $requestsDataProvider,
+            'itemView' => '_form',
+            'summary' => '',
+            'viewParams' => ['user' => $user],
+            'itemOptions' => ['class' => 'item'],
+            'id' => 'friend-request-listview-id',
+            'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+            'pager' => [
+                'class' => ScrollPager::className(),
+                'triggerText' => 'Pokaż więcej',
+                'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+            ],
+        ]);
+        ?>
+    </div>
 </div>
-
-
-

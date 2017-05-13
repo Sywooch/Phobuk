@@ -1,7 +1,6 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\Friendship;
 use common\models\LoginForm;
 use common\models\Photo;
 use frontend\models\ContactForm;
@@ -10,7 +9,6 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use Yii;
 use yii\base\InvalidParamException;
-use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -74,22 +72,7 @@ class SiteController extends Controller {
     public function actionIndex() {
         if (!Yii::$app->user->isGuest) {
 
-        $photoFriendProvider = new ActiveDataProvider();
-        $user_id = Yii::$app->user->identity->id;
-        $photoFriendProvider->query = Photo::find();
-        $photoFriendProvider->query
-            ->from('photo, friendship')
-            ->where('(
-            user_id = friend_one AND :userId = friend_two
-             OR user_id = friend_two AND :userId = friend_one
-             )', [
-                ':userId' => $user_id
-            ])
-            ->andWhere('status = :status', ['status' => Friendship::STATUS_CONFIRM_FRIENDS])
-            ->orderBy([
-                'photo.created_at' => SORT_DESC,
-            ])
-            ->select('photo.id, photo.user_id, photo.created_at, photo.photo, photo.category_id, photo.title');
+            $user_id = Yii::$app->user->identity->id;
 
             $rawSQL = "select * from (select 'photo' as 'type', p.id, photo, title,'' as 'text', user_id, p.created_at, category_id, f.friend_one, f.friend_two, f.status from photo p 
 JOIN friendship f ON (f.friend_one = p.user_id AND f.friend_two =$user_id OR f.friend_two = p.user_id AND f.friend_one =$user_id)WHERE f.status =1 
@@ -110,16 +93,22 @@ JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.f
 
             $dataProvider = new SqlDataProvider([
                 'sql' => $rawSQL,
-                'totalCount' => $count
+                'totalCount' => $count,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
             ]);
 
             /** @var Photo $photoAvatar */
-        return $this->render('index', [
-            'photoFriendProvider' => $photoFriendProvider,
-            'dataProvider' => $dataProvider,
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            $model = new LoginForm();
+            return $this->render('about', [
+                'model' => $model]);
+        }
 
-        ]);
-        } else return $this->render('about');
     }
 
     /**
@@ -181,7 +170,11 @@ JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.f
      * @return mixed
      */
     public function actionAbout() {
-        return $this->render('about');
+
+        $model = new LoginForm();
+        return $this->render('about', [
+            'model' => $model
+        ]);
     }
 
     /**

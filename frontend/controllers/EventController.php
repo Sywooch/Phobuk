@@ -35,17 +35,19 @@ class EventController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new EventSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $eventList = new ActiveDataProvider();
-        $eventList->query = Event::find()
+
+        $query = Event::find()
             ->orderBy([
                 'date' => SORT_DESC,
             ]);
+        $eventList = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
             'eventList' => $eventList,
 
         ]);

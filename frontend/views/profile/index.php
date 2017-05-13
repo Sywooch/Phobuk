@@ -10,6 +10,7 @@
  * rmrevin\yii\fontawesome\AssetBundle::register($this);
  */
 use common\widgets\CameraBrandListWidget\CameraBrandListWidget;
+use kop\y2sp\ScrollPager;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\web\View;
@@ -39,7 +40,7 @@ $this->registerJs($js, View::POS_READY);
     <div id="modal-placeholder"></div>
     <div class="container">
         <div class="row">
-            <div class="col-xs-4 col-sm-3 col-md-3 col-sm-offset-2 col-md-offset-2  ">
+            <div class="col-xs-4 col-sm-3 col-md-3 col-sm-offset-2 col-md-offset-2">
                 <?php
                 if (!$avatar == null) {
                     echo Html::img('/' . $avatar->photo, ['class' => ' img-responsive avatar thumbnail']);
@@ -58,38 +59,39 @@ $this->registerJs($js, View::POS_READY);
                     <?= FA::icon('signal') ?>
                     <?= $user->getLevelLabel() ?>
                 </p>
+
                 <?= CameraBrandListWidget::widget(['id' => $user->getId()]) ?>
             </div>
             <div class="col-xs-3 col-sm-2 col-md-2 ">
 
-                <p>  <?= Html::a('Znajomi', ['/friendship/', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?></p>
+                <p>  <?= Html::a('Znajomi', ['/friendship/', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?></p>
                 <?php if (Yii::$app->user->identity->getId() == $user->getId()) { ?>
-                    <p><?= Html::a('Aktualizuj profil', ['update', 'id' => $user->id], [
+                    <p><?= Html::a('Zmień profil', ['update', 'id' => $user->id], [
                             'id' => 'update-user-btn',
-                            'class' => 'btn btn-primary btn-color']) ?></p>
+                            'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
                     <p> <?= Html::a('Dodaj zdjęcie', ['/photo/create'], [
                             'id' => 'create-new-photo-btn',
-                            'class' => 'btn btn-primary btn-color']) ?></p>
+                            'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
                     <p><?= Html::a('Dodaj post', ['/post/create'], [
                             'id' => 'create-new-post-btn',
-                            'class' => 'btn btn-primary btn-color']) ?></p>
+                            'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
                 <?php }
                 Pjax::begin(['enablePushState' => false]);
                 if (!$isCurrentUser) {
                     if (!$friendship) {
-                        echo Html::a('Dodaj do znajomych', ['invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']);
+                        echo Html::a('Dodaj do znajomych', ['invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']);
                     } else if ($friendship->isConfirmed()) { ?>
                         <p>Jesteśmy znajomymi</p>
-                        <?= Html::a('Usun ze znajomych', ['remove', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Usun ze znajomych', ['remove', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?>
                     <?php } else if ($friendship->isInvited($user->id)) { ?>
 
                         <p> Oczekuje na potwierdzenie </p>
-                        <?= Html::a('Cofnij zaproszenie', ['revert-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Cofnij zaproszenie', ['revert-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?>
 
 
                     <?php } else { ?>
-                        <?= Html::a('Potwierdz', ['confirm-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
-                        <?= Html::a('Odrzuć', ['reject', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color']) ?>
+                        <?= Html::a('Potwierdz', ['confirm-invite', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?>
+                        <?= Html::a('Odrzuć', ['reject', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?>
                     <?php }
                 } ?>
                 <?php Pjax::end(); ?>
@@ -98,13 +100,22 @@ $this->registerJs($js, View::POS_READY);
     </div>
 </div>
 
-<div class="container ">
-    <div class="row">
 
-        <?= ListView::widget(['dataProvider' => $dataProvider,
+<div class="col-xs-12">
+    <div class="container">
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
             'itemView' => '_photo',
-            'summary' => '',]);
+            'summary' => '',
+            'itemOptions' => ['class' => 'item'],
+            'id' => 'profile-listview-id',
+            'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+            'pager' => [
+                'class' => ScrollPager::className(),
+                'triggerText' => 'Pokaż więcej',
+                'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+            ],
+        ]);
         ?>
     </div>
-
 </div>

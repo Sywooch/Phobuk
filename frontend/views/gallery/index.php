@@ -1,15 +1,14 @@
 <?php
 
+use kop\y2sp\ScrollPager;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\GallerySearch */
 /* @var $galleryListDataProvider yii\data\ActiveDataProvider */
 
 
 $this->title = 'Galerie';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gallery-index">
 
@@ -20,14 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <div class="container ">
-        <div class="row">
 
+    <div class="col-xs-12">
+        <div class="container">
             <?= ListView::widget([
                 'dataProvider' => $galleryListDataProvider,
                 'itemView' => '_galleryList',
-                'viewParams' => [],
                 'summary' => '',
+                'itemOptions' => ['class' => 'item'],
+                'id' => 'gallery-listview-id',
+                'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                'pager' => [
+                    'class' => ScrollPager::className(),
+                    'triggerText' => 'Pokaż więcej',
+                    'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+                ],
             ]);
             ?>
         </div>

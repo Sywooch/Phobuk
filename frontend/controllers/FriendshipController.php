@@ -60,7 +60,10 @@ class FriendshipController extends Controller {
             ]);
 
         $confirmedDataProvider = new ActiveDataProvider([
-            'query' => $confirmedQuery
+            'query' => $confirmedQuery,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
 
         $model = new Friendship();
@@ -77,13 +80,20 @@ class FriendshipController extends Controller {
     public function actionRequest($id) {
         $user = Yii::$app->user->identity;
 
-        $friendRequestDataProvider = new ActiveDataProvider();
-        $friendRequestDataProvider->query = Friendship::find()
+        $query = Friendship::find()
             ->forUserId($user->getId())
             ->waiting()
             ->orderBy([
                 'created_at' => SORT_DESC,
             ]);
+
+        $friendRequestDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+
+        ]);
         return $this->render('request', [
 
             'requestsDataProvider' => $friendRequestDataProvider,
