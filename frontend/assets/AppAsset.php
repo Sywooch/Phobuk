@@ -33,4 +33,9 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'rmrevin\yii\fontawesome\AssetBundle',
     ];
+
+    public function init() {
+        parent::init();
+        $this->publishOptions['forceCopy'] = true;
+    }
 }
