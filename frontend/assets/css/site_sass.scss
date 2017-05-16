@@ -175,13 +175,14 @@ $large: "only screen and (max-width: 1200px)";
     font-size: 15px;
     padding-left: 0;
     padding-right: 10px;
+
   }
 
   border-radius: 0;
   margin-bottom: 20px;
   &:hover {
-    background-color: white;
-    border-bottom: solid $main-color;
+    background-color: transparent;
+    border-bottom: 1px solid $main-color;
   }
   &:focus {
     box-shadow: none;
@@ -189,9 +190,10 @@ $large: "only screen and (max-width: 1200px)";
 }
 
 .btn-site-active {
-  background-color: white;
+  background-color: transparent;
   color: $main-color;
   font-size: 20px;
+  border-bottom: 1px solid $hover-color;
   @media #{$tablet} {
     font-size: 18px;
   }
@@ -204,7 +206,7 @@ $large: "only screen and (max-width: 1200px)";
   border-radius: 0;
   margin-bottom: 20px;
   &:hover {
-    border-bottom: solid $main-color;
+    border-bottom: 1px solid $main-color;
   }
   &:focus {
     box-shadow: none;
@@ -340,6 +342,18 @@ $large: "only screen and (max-width: 1200px)";
   }
 }
 
-.blue {
-  background-color: blue;
+.confirmed-event-list {
+  display: block;
+  &.disactive {
+    display: none;
+  }
+}
+
+.request-event-list {
+
+  display: none;
+  &.active {
+    display: block;
+  }
+
 }

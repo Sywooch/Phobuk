@@ -75,6 +75,32 @@ function onToggle(element) {
     $(element).parent().toggleClass('expanded');
 }
 
+$('#confirm-list-button').click(function () {
 
+    var confirmedList = $('.confirmed-event-list');
+    var requestList = $('.request-event-list');
+    var requestButton = $('#request-list-button');
+    if (confirmedList.hasClass('disactive')) {
+        $(this).removeClass('btn-site');
+        $(this).addClass('btn-site-active');
+        confirmedList.removeClass('disactive');
+        requestList.removeClass('active');
+        requestButton.removeClass('btn-site-active');
+        requestButton.addClass('btn-site');
 
+    }
+});
+
+$('#request-list-button').click(function () {
+    $(this).removeClass('btn-site');
+    $(this).addClass('btn-site-active');
+    var confirmButton = $('#confirm-list-button');
+    var confirmedList = $('.confirmed-event-list');
+    var requestList = $('.request-event-list');
+
+    confirmButton.removeClass('btn-site-active');
+    confirmButton.addClass('btn-site');
+    requestList.addClass('active');
+    confirmedList.addClass('disactive');
+});
 

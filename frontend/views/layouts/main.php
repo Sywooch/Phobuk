@@ -76,6 +76,7 @@ AppAsset::register($this);
 
                         <div class="left-menu-ul">
                             <p> <?= Html::a(FA::icon('user') . ' Moi znajomi', ['/friendship/', 'id' => Yii::$app->user->identity->getId()]) ?></p>
+                            <p> <?= Html::a(FA::icon('calendar-o') . ' Moje wydarzenia', ['/event/user', 'id' => Yii::$app->user->identity->getId()]) ?></p>
                             <p><a href="/event"><?= FA::icon('calendar') ?> Wydarzenia</a></p>
                             <p><a href="/gallery"><?= FA::icon('camera') ?> Galerie</a></p>
                             <br>

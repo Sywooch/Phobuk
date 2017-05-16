@@ -103,6 +103,41 @@ class EventController extends Controller {
         ]);
     }
 
+    public function actionUser($id) {
+
+
+        $queryConfirmed = Event::find()
+            ->joinWith('users')
+            ->where('user_id = :id', ['id' => $id])
+            ->andWhere('event_has_user.status =1')
+            ->orderBy([
+                'date' => SORT_DESC,
+            ]);
+
+
+        $eventConfirmedList = new ActiveDataProvider([
+            'query' => $queryConfirmed,
+        ]);
+
+        $queryRequest = Event::find()
+            ->joinWith('users')
+            ->where('user_id = :id', ['id' => $id])
+            ->andWhere('event_has_user.status =0')
+            ->orderBy([
+                'date' => SORT_DESC,
+            ]);
+
+
+        $eventRequestList = new ActiveDataProvider([
+            'query' => $queryRequest,
+        ]);
+        return $this->render('userEvent', [
+            'eventConfirmedList' => $eventConfirmedList,
+            'eventRequestList' => $eventRequestList,
+            'user' => $id
+        ]);
+    }
+
     /**
      * Creates a new Event model.
      * If creation is successful, the browser will be redirected to the 'view' page.
