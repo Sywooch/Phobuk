@@ -27,6 +27,7 @@ use yii\web\UploadedFile;
  * @property User $user
  * @property User[] $users
  * @property Post[] $posts
+ * @property PhotoLike[] $photoLikes
  */
 class Photo extends \yii\db\ActiveRecord
 {
@@ -169,5 +170,12 @@ class Photo extends \yii\db\ActiveRecord
 
         }
         return $imageList;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPhotoLikes() {
+        return $this->hasMany(PhotoLike::className(), ['photo_id' => 'id']);
     }
 }

@@ -22,6 +22,7 @@ use yii\db\Expression;
  * @property Category[] $categories
  * @property Photo $photo
  * @property User $user
+ * @property PostLike[] $postLikes
  */
 class Post extends \yii\db\ActiveRecord {
     /**
@@ -120,5 +121,13 @@ class Post extends \yii\db\ActiveRecord {
             $this->categories_ids[] = $category->id;
         }
         return $this;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getPostLikes() {
+        return $this->hasMany(PostLike::className(), ['post_id' => 'id']);
     }
 }

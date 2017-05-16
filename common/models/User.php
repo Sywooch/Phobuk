@@ -37,6 +37,8 @@ use yii\web\IdentityInterface;
  * @property Post[] $posts
  * @property City $city
  * @property Photo $photoAvatar
+ * @property PostLike[] $postLikes
+ * @property PhotoLike[] $photoLikes
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -344,5 +346,19 @@ class User extends ActiveRecord implements IdentityInterface
             $this->cameraBrands_ids[] = $cameraBrad->id;
         }
         return $this;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPostLikes() {
+        return $this->hasMany(PostLike::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPhotoLikes() {
+        return $this->hasMany(PhotoLike::className(), ['user_id' => 'id']);
     }
 }
