@@ -324,3 +324,22 @@ $large: "only screen and (max-width: 1200px)";
 
 }
 
+.button-item {
+  display: inline;
+  margin: 3px;
+  float: left;
+}
+
+.button-box {
+  display: block;
+}
+
+.padding-phone-fix {
+  @media #{$phone} {
+    padding: 0;
+  }
+}
+
+.blue {
+  background-color: blue;
+}
