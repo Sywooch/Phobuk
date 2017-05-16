@@ -18,9 +18,9 @@ $this->title = $model->name;
     </div>
 
 
-    <div class="col-xs-12">
+    <div class="col-xs-12 padding-phone-fix">
 
-        <div class="container">
+        <div class="container padding-phone-fix">
 
             <?= ListView::widget([
             'dataProvider' => $dataProvider,
@@ -28,7 +28,7 @@ $this->title = $model->name;
             'summary' => '',
                 'itemOptions' => ['class' => 'item'],
                 'id' => 'category-listview-id',
-                'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                'layout' => '<div class="container padding-phone-fix">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
                 'pager' => [
                     'class' => \kop\y2sp\ScrollPager::className(),
                     'triggerText' => 'Pokaż więcej',

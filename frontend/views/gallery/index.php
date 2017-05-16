@@ -20,15 +20,15 @@ $this->title = 'Galerie';
     </div>
 
 
-    <div class="col-xs-12">
-        <div class="container">
+    <div class="col-xs-12 padding-phone-fix">
+        <div class="container padding-phone-fix">
             <?= ListView::widget([
                 'dataProvider' => $galleryListDataProvider,
                 'itemView' => '_galleryList',
                 'summary' => '',
                 'itemOptions' => ['class' => 'item'],
                 'id' => 'gallery-listview-id',
-                'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                'layout' => '<div class="container padding-phone-fix">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
                 'pager' => [
                     'class' => ScrollPager::className(),
                     'triggerText' => 'Pokaż więcej',

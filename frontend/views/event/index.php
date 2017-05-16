@@ -18,15 +18,15 @@ $this->title = 'Wydarzenia';
 </div>
 
 
-    <div class="col-xs-12">
-        <div class="container">
+    <div class="col-xs-12 padding-phone-fix">
+        <div class="container padding-phone-fix">
             <?= ListView::widget([
                 'dataProvider' => $eventList,
                 'itemView' => '_eventList',
                 'summary' => '',
                 'itemOptions' => ['class' => 'item'],
                 'id' => 'event-listview-id',
-                'layout' => '<div class="container">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                'layout' => '<div class="container padding-phone-fix">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
                 'pager' => [
                     'class' => ScrollPager::className(),
                     'triggerText' => 'Pokaż więcej',

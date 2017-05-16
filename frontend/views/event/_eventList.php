@@ -40,7 +40,7 @@ $daysToEvent = 'Wydarzenie minione'
 ?>
 
 <div class="event-view">
-    <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 padding-phone-fix">
         <div class="card">
 
             <div class="title">

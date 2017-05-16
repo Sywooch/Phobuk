@@ -42,8 +42,6 @@ AppAsset::register($this);
         $menuItems = [
             ['label' => FA::icon('home') . ' Home', 'url' => ['/site/index']],
         ];
-            $menuItems[] = ['label' => 'Rejestracja', 'url' => ['/site/signup']];
-            $menuItems[] = ['label' => 'Logowanie', 'url' => ['/site/login']];
             $menuItems[] = ['label' => FA::icon('user') . ' Profil', 'url' => ['/profile', 'id' => Yii::$app->user->getId()]];
             $menuItems[] = [
                 'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -62,7 +60,7 @@ AppAsset::register($this);
             NavBar::end();
         } ?>
 
-        <div class="all-content container ">
+        <div class=" all-content container-fluid padding-phone-fix ">
             <section>
                 <div id="modal-placeholder"></div>
                 <?= $content ?>
@@ -100,7 +98,7 @@ AppAsset::register($this);
 
 
     <footer class="footer">
-        <div class="container-fuid">
+        <div class="container-fluid">
             <p class="pull-right">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
         </div>

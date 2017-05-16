@@ -17,7 +17,7 @@ $this->title = $model->name;
     <h1><?= Html::encode($this->title) ?></h1>
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-xs-12 padding-phone-fix">
 
         <div class="container">
 

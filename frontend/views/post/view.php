@@ -32,8 +32,8 @@ $js = <<<JS
 JS;
 $this->registerJs($js, View::POS_READY);
 ?>
-
-<div class=" col-xs-12 col-sm-12 col-md-8 col-md-offset-2 ">
+<div class="container padding-phone-fix">
+    <div class=" col-xs-12 col-sm-12 col-md-8 col-md-offset-2 padding-phone-fix ">
     <div class="card">
         <div id="modal-placeholder"></div>
 
@@ -105,5 +105,6 @@ $this->registerJs($js, View::POS_READY);
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
