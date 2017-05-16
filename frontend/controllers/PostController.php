@@ -4,10 +4,12 @@ namespace frontend\controllers;
 
 use common\models\Post;
 use common\models\PostHasCategory;
+use common\models\PostLike;
 use common\models\PostWithCategories;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -68,10 +70,10 @@ class PostController extends Controller {
             }
         }
         return $this->renderAjax('create', [
-                'model' => $model,
+            'model' => $model,
 
-            ]);
-        }
+        ]);
+    }
 
 
     /**
@@ -96,8 +98,8 @@ class PostController extends Controller {
         }
 
         return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
+            'model' => $model,
+        ]);
 
     }
 
@@ -126,5 +128,32 @@ class PostController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionLike($itemId, $itemType) {
+        $user = Yii::$app->user->identity->getId();
+        $currentLikes = new ActiveDataProvider();
+
+        $currentUserLikes = PostLike::currentUserLike($itemId, $user);
+        if (!$currentUserLikes) {
+            PostLike::saveLike($itemId, $user);
+            $status = PostLike::LikeAcceptStatus();
+        } else {
+            $currentUserLikes->delete();
+            $status = PostLike::NonLikeStatus();
+        }
+        $currentLikes->query = PostLike::find()
+            ->where('post_id = :id', [
+                'id' => $itemId
+            ]);
+
+        $res = [
+            'status' => $status,
+            'currentLikes' => $currentLikes->count,
+            'itemId' => $itemId,
+            'it' => $itemType
+        ];
+
+        return Json::encode($res);
     }
 }

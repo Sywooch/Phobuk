@@ -3,8 +3,11 @@
 namespace frontend\controllers;
 
 use common\models\Photo;
+use common\models\PhotoLike;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -12,13 +15,11 @@ use yii\web\UploadedFile;
 /**
  * PhotoController implements the CRUD actions for Photo model.
  */
-class PhotoController extends Controller
-{
+class PhotoController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -35,8 +36,7 @@ class PhotoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -50,8 +50,7 @@ class PhotoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Photo();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -78,8 +77,7 @@ class PhotoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -107,8 +105,7 @@ class PhotoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -121,12 +118,39 @@ class PhotoController extends Controller
      * @return Photo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Photo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionLike($itemId, $itemType) {
+        $user = Yii::$app->user->identity->getId();
+        $currentLikes = new ActiveDataProvider();
+
+        $currentUserLikes = PhotoLike::currentUserLike($itemId, $user);
+        if (!$currentUserLikes) {
+            PhotoLike::saveLike($itemId, $user);
+            $status = PhotoLike::LikeAcceptStatus();
+        } else {
+            $currentUserLikes->delete();
+            $status = PhotoLike::NonLikeStatus();
+        }
+
+        $currentLikes->query = PhotoLike::find()
+            ->where('photo_id = :id', [
+                'id' => $itemId
+            ]);
+
+        $res = [
+            'status' => $status,
+            'currentLikes' => $currentLikes->count,
+            'itemId' => $itemId,
+            'it' => $itemType
+        ];
+
+        return Json::encode($res);
     }
 }

@@ -18,43 +18,44 @@ use yii\helpers\Html;
 /** @var \yii\web\View $this */
 $id = $model['id'];
 $type = $model['type'];
+$photoModel = $model['photo'];
+
 
 $js = <<<JS
 
-    $('[data-id="$id"] .like').click(function() {
-    
+    $(' [data-id="$id"] .like').click(function() {
+   
+ 
         var like = this;
-    
+
         var ajaxConfiguration = {
-          url: '/site/like',
+          url: '$path',
           type: 'get',
           data: {
             itemId: $id,
-            itemType: '$type'
+            itemType: '$type',
           },
+         
           success: function(data) {
               response = $.parseJSON(data);
               var likeButton = $('.like-button', like);
-
-              if(response.status === 'ok'){
-              
-              var cl = response.currentLikes;
-              
-              if(response.currentUserLiked) {
-                likeButton.addClass('btn-primary')
-                likeButton.removeClass('btn-default')
-              } else {
-                likeButton.addClass('btn-default')
-                likeButton.removeClass('btn-primary')
-              }
-              }
-       
+              var count = $('.count', likeButton);
+              var userLike = $('.userLike', likeButton);
+          
+              var countText = response.currentLikes;
+              var userText = response.status;
+     
+                likeButton.addClass('btn-primary');
+                likeButton.removeClass('btn-default');
+                count.text(countText);
+                userLike.text(userText);
             
             }
         };
-    
-        $.ajax(ajaxConfiguration);
+         $.ajax(ajaxConfiguration);
+         
     });
+
 JS;
 
 $this->registerJs($js);
@@ -70,7 +71,7 @@ $this->registerCss($css);
 ?>
 
 
-<div data-id="<?= $id ?>" class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+<div data-id="<?= $id ?>" type="<?= $type ?>" class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 padding-phone-fix">
 
     <div class="card">
 
@@ -149,22 +150,35 @@ $this->registerCss($css);
                     <?= $model['text'] ?>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-xs-2 col-xs-offset-1">
 
-                <?php } ?>
-        <?= Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, [''], [
-            'class' => 'btn btn-default btn-sm'
-        ]) ?>
-            </div>
-            <div class="col-xs-2">
-                <div class="like">
-                    <button class="btn like-button"><span class="fa fa-thumbs-up"></span> Like (<span
-                            class="count">5</span>)
-                    </button>
+        <?php } ?>
+        <div class="row ">
+            <div class="col-xs-12">
+                <div class="button-box ">
+                    <div class="button-item">
+
+                        <?php if ($model['type'] == 'photo') {
+                            echo Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, ['/photo/view', 'id' => $model['id']], [
+                                'class' => 'btn btn-default btn-sm'
+                            ]);
+                        } else {
+                            echo Html::a(FA::icon('comment') . ' ' . $commentDataProvider->count, ['/post/view', 'id' => $model['id']], [
+                                'class' => 'btn btn-default btn-sm'
+                            ]);
+                        }
+                        ?>
+                    </div>
+                    <div class="button-item">
+                        <div class="like">
+                            <div class="btn like-button btn-default btn-sm"><span class="fa fa-thumbs-up"></span> <span
+                                    class="count"><?= $currentLikes->count ?></span>
+                                <span class="userLike" id="userLike"><?= $status ?></span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
