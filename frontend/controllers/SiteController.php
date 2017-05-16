@@ -104,9 +104,7 @@ JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.f
                 'dataProvider' => $dataProvider,
             ]);
         } else {
-            $model = new LoginForm();
-            return $this->render('about', [
-                'model' => $model]);
+            return $this->actionAbout();
         }
 
     }
@@ -172,9 +170,15 @@ JOIN friendship f ON (f.friend_one = d.user_id AND f.friend_two =$user_id OR f.f
     public function actionAbout() {
 
         $model = new LoginForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->actionIndex();
+        }
+
         return $this->render('about', [
             'model' => $model
         ]);
+
     }
 
     /**
