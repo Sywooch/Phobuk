@@ -17,9 +17,9 @@ $this->title = 'Zaproszenia do znajomych';
 ?>
 <div class="center">
 <h1><?= Html::encode($this->title) ?></h1>
-</div>
-<h4>Ilość zaproszeń: <?= $requestsDataProvider->count ?> </h4>
 
+    <h4>Ilość zaproszeń: <?= $requestsDataProvider->count ?> </h4>
+</div>
 
 <div class="col-xs-12">
     <div class="container">

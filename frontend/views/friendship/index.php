@@ -18,16 +18,15 @@ $this->title = 'Znajomi użytkownika: ';
     $fullName = $query->getFullName(); ?>
     <div class="center">
     <h1><?= Html::encode($this->title) . $fullName ?></h1>
-    </div>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
     <?php if ($user == Yii::$app->user->identity->getId()) { ?>
-    <p>
+
         <?= Html::a('Zaproszenia do znajomych', ['request', 'id' => Yii::$app->user->identity->getId()], ['class' => 'btn btn-primary btn-color']) ?>
-    </p>
+
     <?php } ?>
 
     <h4>Ilość znajomych: <?= $confirmedDataProvider->count ?> </h4>
-
+    </div>
     <div class="col-xs-12">
         <div class="container">
             <?= ListView::widget([
