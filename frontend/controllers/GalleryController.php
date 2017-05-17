@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Gallery;
 use common\models\Photo;
 use common\models\PhotoInGallery;
+use common\models\User;
 use frontend\models\PhotoForm;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -151,5 +152,41 @@ class GalleryController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionUser($id) {
+
+        if ($id) {
+            $query = User::find();
+
+            $query->where('id = :id_param', [
+                'id_param' => $id
+            ]);
+            $user = $query->one();
+        } else {
+            $user = Yii::$app->user->identity;
+        }
+        if (!$user) {
+            throw new NotFoundHttpException("Nie istnieje użytkownik o id = " . $id);
+        }
+
+
+        $query = Gallery::find()
+            ->forUser($user->getId())
+            ->orderBy([
+                'created_at' => SORT_DESC,
+            ]);
+
+        $galleryDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('user-gallery', [
+            'galleryDataProvider' => $galleryDataProvider,
+            'user' => $id
+        ]);
     }
 }

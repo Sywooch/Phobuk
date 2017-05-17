@@ -6,6 +6,7 @@
  * Time: 11:40 AM
  * @var $model \common\models\Gallery
  */
+use common\models\Gallery;
 use common\models\Photo;
 use rmrevin\yii\fontawesome\FA;
 use yii\data\ActiveDataProvider;
@@ -40,6 +41,10 @@ $('.gallery').modaal({
 });
 JS;
 $this->registerJs($js);
+
+$currentUser = Yii::$app->user->getId();
+if ($model->type == Gallery::TYPE_PUBLIC || $model->type == Gallery::TYPE_PRIVATE && $currentUser == $model->user_id) {
+
 
 ?>
 <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 padding-phone-fix">
@@ -84,10 +89,11 @@ $this->registerJs($js);
         <div class="row">
             <div class="col-xs-12 ">
                 <?= Html::a($buttonText, ['/gallery/view', 'id' => $model->id], [
-                    'class' => 'btn btn-site-active col-xs-12'
+                    'class' => 'btn btn-site col-xs-12 padding-wrapper-fix'
                 ]) ?>
             </div>
         </div>
 
     </div>
 </div>
+<?php } ?>
