@@ -65,15 +65,13 @@ $this->registerJs($js, View::POS_READY);
             <div class="col-xs-3 col-sm-2 col-md-2 ">
 
                 <p>  <?= Html::a('Znajomi', ['/friendship/', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?></p>
+                <p>  <?= Html::a('Galerie', ['/gallery/user', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?></p>
+                <p>  <?= Html::a('Wydarzenia', ['/event/user', 'id' => $user->getId()], ['class' => 'btn btn-primary btn-color btn-sm']) ?></p>
+
+
                 <?php if (Yii::$app->user->identity->getId() == $user->getId()) { ?>
                     <p><?= Html::a('Zmień profil', ['update', 'id' => $user->id], [
                             'id' => 'update-user-btn',
-                            'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
-                    <p> <?= Html::a('Dodaj zdjęcie', ['/photo/create'], [
-                            'id' => 'create-new-photo-btn',
-                            'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
-                    <p><?= Html::a('Dodaj post', ['/post/create'], [
-                            'id' => 'create-new-post-btn',
                             'class' => 'btn btn-primary btn-color btn-sm']) ?></p>
                 <?php }
                 Pjax::begin(['enablePushState' => false]);
