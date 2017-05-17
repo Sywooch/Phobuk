@@ -6,6 +6,7 @@
  * Time: 13:38
  */
 use common\models\User;
+use kop\y2sp\ScrollPager;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
@@ -39,23 +40,39 @@ $this->title = 'Wydarzenia użytkownika';
                     'dataProvider' => $eventConfirmedList,
                     'itemView' => '_eventList',
                     'summary' => '',
-
+                    'itemOptions' => ['class' => 'item'],
+                    'id' => 'event-listview-id',
+                    'layout' => '<div class="container padding-phone-fix">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                    'pager' => [
+                        'class' => \kop\y2sp\ScrollPager::className(),
+                        'triggerText' => 'Pokaż więcej',
+                        'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+                    ],
                 ]);
                 ?>
             </div>
         </div>
     </div>
+
     <div class="request-event-list">
 
         <div class="col-xs-12 padding-phone-fix">
             <div class="container padding-phone-fix ">
 
-
                 <?= ListView::widget([
                     'dataProvider' => $eventRequestList,
                     'itemView' => '_eventList',
                     'summary' => '',
-                ]); ?>
+                    'itemOptions' => ['class' => 'item'],
+                    'id' => 'event-listview-id',
+                    'layout' => '<div class="container padding-phone-fix">{items}</div> <div class="pager-margin">{pager}{summary}</div>',
+                    'pager' => [
+                        'class' => \kop\y2sp\ScrollPager::className(),
+                        'triggerText' => 'Pokaż więcej',
+                        'enabledExtensions' => [ScrollPager::EXTENSION_TRIGGER],
+                    ],
+                ]);
+                ?>
             </div>
         </div>
     </div>

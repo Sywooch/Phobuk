@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Event;
 use common\models\EventHasUser;
 use common\models\EventSearch;
+use common\models\User;
 use DateTime;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -105,10 +106,23 @@ class EventController extends Controller {
 
     public function actionUser($id) {
 
+        if ($id) {
+            $query = User::find();
+
+            $query->where('id = :id_param', [
+                'id_param' => $id
+            ]);
+            $user = $query->one();
+        } else {
+            $user = Yii::$app->user->identity;
+        }
+        if (!$user) {
+            throw new NotFoundHttpException("Nie istnieje użytkownik o id = " . $id);
+        }
 
         $queryConfirmed = Event::find()
             ->joinWith('users')
-            ->where('user_id = :id', ['id' => $id])
+            ->where('user_id = :id', ['id' => $user->getId()])
             ->andWhere('event_has_user.status =1')
             ->orderBy([
                 'date' => SORT_DESC,
@@ -117,6 +131,9 @@ class EventController extends Controller {
 
         $eventConfirmedList = new ActiveDataProvider([
             'query' => $queryConfirmed,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $queryRequest = Event::find()
