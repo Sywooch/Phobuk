@@ -20,7 +20,16 @@ class GalleryQuery extends ActiveQuery {
     /**
      * GalleryQuery constructor.
      */
+    public function forUser($user) {
+        return $this->andWhere('user_id = :user', [
+            'user' => $user
+        ]);
+    }
 
+    /**
+     * @param $type
+     * @return $this
+     */
     private function forType($type) {
         return $this->andWhere('type = :type', [
             'type' => $type
@@ -41,6 +50,10 @@ class GalleryQuery extends ActiveQuery {
         return $this->forType(Gallery::TYPE_PRIVATE);
     }
 
+    /**
+     * @param $user
+     * @return $this
+     */
     public function privateForUser($user) {
         return $this->orWhere('type = 0 and user_id = :user', [
             'user' => $user
