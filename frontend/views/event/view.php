@@ -4,6 +4,7 @@ use common\widgets\UserEventList\UserEventListWidget;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\web\View;
+use yii2mod\google\maps\markers\GoogleMaps;
 
 /* @var $this yii\web\View */
 /* @var $userRequestList \common\models\EventHasUser */
@@ -32,7 +33,7 @@ $js = <<<JS
 JS;
 $this->registerJs($js, View::POS_READY);
 ?>
-<div class="event-view">
+<div class="event-view container">
     <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 padding-phone-fix">
         <div class="card">
             <div id="modal-placeholder"></div>
@@ -77,6 +78,35 @@ $this->registerJs($js, View::POS_READY);
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
                     <?= $model->text ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <?php
+                    $cityName = $model->city->name;
+                    echo GoogleMaps::widget([
+                        'wrapperHeight' => '300px',
+                        'userLocations' => [
+                            [
+                                'location' => [
+                                    'city' => $cityName,
+                                    'country' => 'Poland',
+                                ],
+                                'htmlContent' => $cityName,
+                            ],
+                        ],
+
+                        'googleMapsUrlOptions' => [
+                            'key' => 'AIzaSyCpm8_cCBzCECgagIJ8ks2Gr-GvuTyMTu8',
+                            'language' => 'pl',
+                            'version' => '3.1.18'
+
+                        ],
+                        'googleMapsOptions' => [
+                            'mapTypeId' => 'roadmap',
+                            'maxZoom' => 12,
+                        ],
+                    ]); ?>
                 </div>
             </div>
 
