@@ -30,7 +30,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -69,21 +69,31 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionLogin()
-    {
+    public function actionLogin() {
+        $this->layout = 'main-login';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if (Yii::$app->user->can('admin')) {
+                return $this->goBack();
+            } else {
+                Yii::$app->user->logout(false);
+                Yii::$app->session->setFlash('error', 'Nie masz uprawnień do logowania!');
+
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
     }
+
 
     public function actionLogout()
     {
