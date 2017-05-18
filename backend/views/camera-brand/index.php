@@ -7,16 +7,14 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\CameraBrandSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Camera Brands';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Marki aparatów';
 ?>
 <div class="camera-brand-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Camera Brand', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Dodaj markę aparatu ', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

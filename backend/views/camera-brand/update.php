@@ -1,18 +1,14 @@
 <?php
 
-use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\CameraBrand */
 
-$this->title = 'Update Camera Brand: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Camera Brands', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Aktualizacja marki aparatu: ' . $model->name;
+
 ?>
 <div class="camera-brand-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
