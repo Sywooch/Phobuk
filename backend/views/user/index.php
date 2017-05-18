@@ -1,23 +1,17 @@
 <?php
 
+use common\models\User;
 use yii\grid\GridView;
-use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\CitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Użytkownicy';
+
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -25,21 +19,63 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            [
+                'label' => 'Rola',
+                'attribute' => 'role',
+                'filter' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),
+                'value' => function ($model) {
+                    $userRoles = Yii::$app->authManager->getRolesByUser($model->id);
+                    return array_shift($userRoles)->name;
+                },
+            ],
             'first_name',
             'last_name',
             'username',
-            'auth_key',
-            // 'password_hash',
-            // 'password_reset_token',
-            // 'email:email',
-            // 'status',
-            // 'created_at',
-            // 'updated_at',
-            // 'text:ntext',
-            // 'level',
-            // 'city_id',
+            'email:email',
+            [
+                'attribute' => 'status',
+                'format' => 'text',
+                'value' => function ($model) {
+                    switch ($model->status) {
+                        case User::STATUS_ACTIVE :
+                            return 'Aktywny';
+                            break;
+                        case User::STATUS_DELETED :
+                            return 'Usunięty';
+                            break;
+                        default :
+                            return 'Brak danych';
+                    }
+                }
+            ],
+            'created_at',
+            [
+                'attribute' => 'level',
+                'format' => 'text',
+                'value' => function ($model) {
+                    switch ($model->level) {
+                        case User::LEVEL_PROFESSIONAL :
+                            return 'Profesjonalista';
+                            break;
+                        case User::LEVEL_UNPROFESSIONAL :
+                            return 'Amator';
+                            break;
+                        default :
+                            return 'Brak danych';
+                    }
+                }
+            ],
+            [
+                'attribute' => 'city_id',
+                'value' => function (User $model) {
+                    return $model->city->name;
+                }
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{update}{delete}',
+            ],
+
         ],
     ]); ?>
 </div>
