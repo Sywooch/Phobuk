@@ -1,35 +1,56 @@
 <?php
 
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+$this->title = 'Sign In';
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$usernameOptions = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-user form-control-feedback'></span>"
+];
+$passwordOptions = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
+];
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Phobuk</b> </a>
+    </div>
+    <?= common\widgets\Alert::widget() ?>
+    <div class="login-box-body">
+        <p class="login-box-msg">Zaloguj się do administracji</p>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
-                <?= $form->field($model, 'username') ?>
+        <?= $form
+            ->field($model, 'username', $usernameOptions)
+            ->label(false)
+            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form
+            ->field($model, 'password', $passwordOptions)
+            ->label(false)
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
+        <div class="row">
+            <div class="col-xs-8">
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
+            </div>
+            <div class="col-xs-12">
+                <?= Html::submitButton('Zaloguj', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
+            </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
         </div>
+
+
+        <?php ActiveForm::end(); ?>
+
     </div>
 </div>

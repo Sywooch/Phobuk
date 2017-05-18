@@ -5,14 +5,13 @@
  * @var $user \common\models\User
  */
 
-$this->title = 'My Yii Application';
+$this->title = 'Phobuk';
 ?>
 
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Witamy w administracji strony Phobuk</h1>
-        <p class="lead">Możesz zarządzać wszystkim :)</p>
+        <h2>Witamy w administracji strony Phobuk</h2>
         <h3>Ilość użytkowników: <?= $userCount ?></h3>
     </div>
 </div>
