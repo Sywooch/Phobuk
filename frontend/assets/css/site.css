@@ -44,6 +44,7 @@ h1 {
     padding-right: 0 !important;
     margin-right: 0 !important;
     margin-left: 0 !important;
+    margin-bottom: 0 !important;
 
 }
 
@@ -244,7 +245,6 @@ a:hover {
 }
 
 
-
 .invited {
     position: relative;
     background-color: #354247;
@@ -262,9 +262,6 @@ a:hover {
     font-size: 10px;
 }
 
-.unlike-button {
-    display: none;
-}
 
 .photo-radio {
     margin: 10px;

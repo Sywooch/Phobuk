@@ -343,14 +343,12 @@ $large: "only screen and (max-width: 1200px)";
 }
 
 .confirmed-event-list {
-  display: block;
   &.disactive {
     display: none;
   }
 }
 
 .request-event-list {
-
   display: none;
   &.active {
     display: block;
