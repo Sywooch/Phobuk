@@ -2,11 +2,11 @@
 
 use common\models\City;
 use common\models\User;
+use kartik\datetime\DateTimePicker;
 use vova07\imperavi\Widget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Event */
@@ -41,12 +41,23 @@ use yii\jui\DatePicker;
 
 
             <div class="col-md-4">
-                <h5><strong>Data wydarzenia</strong></h5>
-                <?php echo DatePicker::widget([
+                <p><strong>Data wydarzenia</strong></p>
+                <!--  --><?php /*echo DatePicker::widget([
                     'model' => $model,
                     'attribute' => 'date',
                     'language' => 'pl',
                     'dateFormat' => 'yyyy-MM-dd',
+                ]) */ ?>
+
+                <?php echo DateTimePicker::widget([
+                    'type' => DateTimePicker::TYPE_COMPONENT_PREPEND,
+                    'model' => $model,
+                    'attribute' => 'date',
+                    'language' => 'pl',
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd hh:ii',
+                    ]
                 ]) ?>
             </div>
             <div class="col-md-4">
