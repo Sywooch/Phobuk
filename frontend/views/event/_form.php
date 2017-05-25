@@ -4,9 +4,12 @@ use common\models\City;
 use common\models\User;
 use kartik\datetime\DateTimePicker;
 use vova07\imperavi\Widget;
+use wbraganca\selectivity\SelectivityWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Event */
@@ -40,20 +43,14 @@ use yii\helpers\Html;
         <div class="row">
 
 
-            <div class="col-md-4">
+            <div class="col-md-4 ">
                 <p><strong>Data wydarzenia</strong></p>
-                <!--  --><?php /*echo DatePicker::widget([
-                    'model' => $model,
-                    'attribute' => 'date',
-                    'language' => 'pl',
-                    'dateFormat' => 'yyyy-MM-dd',
-                ]) */ ?>
-
                 <?php echo DateTimePicker::widget([
                     'type' => DateTimePicker::TYPE_COMPONENT_PREPEND,
                     'model' => $model,
                     'attribute' => 'date',
                     'language' => 'pl',
+
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'yyyy-mm-dd hh:ii',
@@ -62,12 +59,30 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
-
             </div>
             <div class="col-md-4">
-                <?php $user = ArrayHelper::map(User::find()->all(), 'id', 'fullName') ?>
-                <?= $form->field($model, 'users_ids')->checkboxList($user,
-                    ['multiple' => true]) ?>
+
+                <?php
+                $allUser = ArrayHelper::map(User::find()->all(), 'id', 'fullName');
+                $userInEvent = [];
+                foreach ($model->users as $user) {
+
+                    $userInEvent[] = ['id' => $user->id, 'text' => $user->getFullName()];
+                }
+                echo $form->field($model, 'users_ids')->
+                widget(SelectivityWidget::className(), [
+                    'pluginOptions' => [
+                        'multiple' => true,
+                        'value' => $model->users_ids,
+                        'items' => $allUser,
+                        'placeholder' => 'Wybierz',
+                        'initSelection' => new JsExpression('function(data, callback) {
+            $("#' . Html::getInputId($model, 'users_ids') . '").selectivity("data", ' . Json::encode($userInEvent) . ')
+        }')
+                    ]
+
+                ]) ?>
+
             </div>
 
         </div>

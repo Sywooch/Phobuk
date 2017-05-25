@@ -2,6 +2,7 @@
 
 use common\models\Category;
 use kartik\file\FileInput;
+use wbraganca\selectivity\SelectivityWidget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -39,7 +40,13 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-            <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz kategorię']) ?>
+            <?= $form->field($model, 'category_id')->widget(SelectivityWidget::className(), [
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'items' => ArrayHelper::map(Category::find()->all(), 'id', 'name'),
+                    'placeholder' => 'Nie wybrano kategorii'
+                ]
+            ]) ?>
         </div>
     </div>
 

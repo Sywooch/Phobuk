@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc4bb4efce7e1d7fa60b109f2fa04fb5",
+    "content-hash": "e018bb59e0bb632ff85835693c72a421",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -94,6 +94,43 @@
                 "responsive",
                 "web"
             ]
+        },
+        {
+            "name": "bower-asset/font-awesome",
+            "version": "v4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "less/font-awesome.less",
+                    "scss/font-awesome.scss"
+                ],
+                "bower-asset-ignore": [
+                    "*/.*",
+                    "*.json",
+                    "src",
+                    "*.yml",
+                    "Gemfile",
+                    "Gemfile.lock",
+                    "*.md"
+                ]
+            },
+            "license": [
+                "OFL-1.1",
+                "MIT",
+                "CC-BY-3.0"
+            ],
+            "description": "Font Awesome"
         },
         {
             "name": "bower-asset/fontawesome",
@@ -274,6 +311,49 @@
                     "package.json"
                 ]
             }
+        },
+        {
+            "name": "bower-asset/selectivity",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arendjr/selectivity.git",
+                "reference": "886c1e5fd899b3bf5121886c00109108519789a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arendjr/selectivity/zipball/886c1e5fd899b3bf5121886c00109108519789a4",
+                "reference": "886c1e5fd899b3bf5121886c00109108519789a4",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/font-awesome": ">=4.1.0",
+                "bower-asset/jquery": ">=1.9"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/selectivity-full.css",
+                    "dist/selectivity-full.js"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Modular and light-weight selection library for jQuery and Zepto.js",
+            "keywords": [
+                "dropdown",
+                "email",
+                "input",
+                "multiselect",
+                "select",
+                "submenu"
+            ]
         },
         {
             "name": "bower-asset/yii2-pjax",
@@ -942,6 +1022,63 @@
                 "yii2"
             ],
             "time": "2015-12-10T21:16:23+00:00"
+        },
+        {
+            "name": "wbraganca/yii2-selectivity",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wbraganca/yii2-selectivity.git",
+                "reference": "a8230c3decf485490c27b4a2a843d9993fe2fa03"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wbraganca/yii2-selectivity/zipball/a8230c3decf485490c27b4a2a843d9993fe2fa03",
+                "reference": "a8230c3decf485490c27b4a2a843d9993fe2fa03",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/selectivity": "^2.0.0",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "wbraganca\\selectivity\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Wanderson Bragança",
+                    "email": "wanderson.wbc@gmail.com",
+                    "homepage": "http://wbraganca.com"
+                }
+            ],
+            "description": "The yii2-selectivity is a Yii 2 wrapper for [selectivity](https://arendjr.github.io/selectivity/). A modular and light-weight selection library for jQuery and Zepto.js.",
+            "homepage": "https://github.com/wbraganca/yii2-selectivity",
+            "keywords": [
+                "dropdown",
+                "multiselect",
+                "select",
+                "wbraganca",
+                "yii2",
+                "yii2-selectivity"
+            ],
+            "time": "2015-11-07T23:27:11+00:00"
         },
         {
             "name": "webcreate/jquery-ias",
