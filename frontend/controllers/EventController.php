@@ -164,9 +164,13 @@ class EventController extends Controller {
         $model = new Event();
 
         if ($model->load(Yii::$app->request->post())) {
+
             if ($model->save()) {
-                $eventHasUser = new EventHasUser();
-                $eventHasUser->addUserToEvent($model->id, $model->users_ids);
+                if ($model->users_ids != null) {
+                    $eventHasUser = new EventHasUser();
+                    $eventHasUser->addUserToEvent($model->id, $model->users_ids);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
