@@ -24,7 +24,10 @@ use yii\helpers\Html;
 <div class="col-xs-12 col-sm-8 col-sm-offset-1 col-md-5 col-md-offset-1">
     <div class="row thumbnail">
         <div class="col-sm-3">
-            <?= Html::img('/' . $dispalayedUser->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']); ?>
+            <?php if (!$dispalayedUser->avatar == null) {
+                echo Html::img('/' . $dispalayedUser->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']);
+            } ?>
+
         </div>
 
         <div class="col-sm-9">
@@ -33,7 +36,9 @@ use yii\helpers\Html;
                 <h3><?= Html::a($dispalayedUser->getFullName(), ['/profile', 'id' => $dispalayedUser->getId()]) ?></h3>
             </div>
             <?= $dispalayedUser->getUsername() . ' ' ?>
-            <?= FA::icon('home') . ' ' . $dispalayedUser->city->name ?>
+            <?php if (!$dispalayedUser->city == null) {
+                echo FA::icon('home') . ' ' . $dispalayedUser->city->name;
+            } ?>
             <?= FA::icon('signal') . ' ' . $dispalayedUser->getLevelLabel() ?>
             <div class="row"><?= CameraBrandListWidget::widget(['id' => $dispalayedUser->getId()]) ?> </div>
 
@@ -42,7 +47,6 @@ use yii\helpers\Html;
                 if ($user == $currentUserId) { ?>
 
                     <?= FA::icon('calendar') . ' Znajomość od: ' . Yii::$app->formatter->asDate($model->created_at) ?>
-
 
                 <?php }
             } ?>

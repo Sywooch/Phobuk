@@ -53,7 +53,9 @@ $this->registerJs($js, View::POS_READY);
                 <h5><?= $user->getUsername() ?></h5>
                 <p>
                     <?= FA::icon('home'); ?>
-                    <?= $city->name ?>
+                    <?php if (!$user->city_id == null) {
+                        echo $city->name;
+                    } else echo 'brak danych'; ?>
                 </p>
                 <p>
                     <?= FA::icon('signal') ?>

@@ -41,7 +41,7 @@ $this->registerJs($js, View::POS_READY);
                 <div class="title  ">
                     <h2><?= 'Wydarzenie: ' . Html::encode($this->title) ?></h2>
                 </div>
-                </div>
+            </div>
 
 
             <div class="col-xs-12">
@@ -50,7 +50,7 @@ $this->registerJs($js, View::POS_READY);
                         <?= Html::a(FA::icon('pencil') . ' Edytuj', ['update', 'id' => $model->id], [
                             'id' => 'update-event-btn',
                             'class' => 'btn btn-default btn-sm'
-                            ]) ?>
+                        ]) ?>
                         <?= Html::a(FA::icon('trash') . ' Usuń', ['delete', 'id' => $model->id],
                             ['class' => 'btn btn-default btn-sm', 'data' => [
                                 'confirm' => 'Jesteś pewien, że chcesz usunąć to wydarzenie?',
@@ -73,14 +73,14 @@ $this->registerJs($js, View::POS_READY);
                                 'class' => 'btn btn-default btn-sm'
                             ]) ?></h4>
                     </div>
-                    </div>
                 </div>
+            </div>
 
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
                     <?= $model->text ?>
                 </div>
-                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12">
                     <?php
@@ -94,8 +94,8 @@ $this->registerJs($js, View::POS_READY);
                                     'country' => 'Poland',
                                 ],
                                 'htmlContent' => $cityName,
-                                ],
                             ],
+                        ],
 
                         'googleMapsUrlOptions' => [
                             'key' => 'AIzaSyCpm8_cCBzCECgagIJ8ks2Gr-GvuTyMTu8',
@@ -109,7 +109,7 @@ $this->registerJs($js, View::POS_READY);
                         ],
                     ]); ?>
                 </div>
-                </div>
+            </div>
 
             <div class="col-xs-12">
                 <?php
@@ -125,15 +125,18 @@ $this->registerJs($js, View::POS_READY);
                     <h4>Zaproszeni na wydarzenie (<?= $userRequestList->count ?>):</h4>
                     <?= UserEventListWidget::widget(['model' => $userRequestList, 'isParticipant' => $isParticipant]) ?>
                 </div>
-                </div>
+            </div>
 
             <div class="row">
                 <div class="col-xs-10  col-xs-offset-1">
                     <h4>Biorą udział w wydarzeniu(<?= $userConfirmedList->count ?>):</h4>
                     <?= UserEventListWidget::widget(['model' => $userConfirmedList, 'isParticipant' => $isParticipant]) ?>
                 </div>
-                </div>
+            </div>
 
         </div>
-        </div>
     </div>
+</div>
+
+
+

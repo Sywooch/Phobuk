@@ -102,8 +102,11 @@ $this->registerCss($css);
             <div class="col-xs-4 col-sm-2 col-sm-offset-2">
                 <?php
                 $user = User::findOne($model['user_id']);
-                $photoAvatar = $user->photoAvatar->photo;
-                echo Html::img('/' . $photoAvatar, ['class' => 'img-responsive avatar-small thumbnail']); ?>
+
+                if (!$user->avatar == null) {
+                    $photoAvatar = $user->photoAvatar->photo;
+                    echo Html::img('/' . $photoAvatar, ['class' => 'img-responsive avatar-small thumbnail']);
+                } ?>
             </div>
 
             <div class="col-xs-8 col-sm-6">
@@ -125,10 +128,13 @@ $this->registerCss($css);
                 <div class="center">
                     <?php
                     if ($model['type'] == 'photo') {
-                        $category = Category::findOne($model['category_id']);
-                        $categoryPhotoName = $category->name;
-                        echo Html::a('#' . $categoryPhotoName, ['/category/view', 'id' => $model['category_id']], [
-                            'class' => 'btn btn-default btn-sm']);
+                        if (!$model['category_id'] == null) {
+                            $category = Category::findOne($model['category_id']);
+                            $categoryPhotoName = $category->name;
+                            echo Html::a('#' . $categoryPhotoName, ['/category/view', 'id' => $model['category_id']], [
+                                'class' => 'btn btn-default btn-sm']);
+                        }
+
                     } else {
                         foreach ($postHasCategory->models as $modelCategory) {
                             $query = Category::findOne($modelCategory->category_id);

@@ -68,7 +68,9 @@ $this->registerJs($js, View::POS_READY);
 
             <div class="row">
                 <div class="col-xs-4 col-sm-2 col-sm-offset-2">
-                    <?= Html::img('/' . $post->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']); ?>
+                    <?php if (!$post->user->avatar == null) {
+                        echo Html::img('/' . $post->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']);
+                    } ?>
                 </div>
                 <div class="col-xs-8 col-sm-6">
                     <?= Html::a(FA::icon('user') . ' ' . $post->user->getFullName(), ['/profile/', 'id' => $post->user->getId()], [

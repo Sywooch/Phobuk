@@ -19,14 +19,20 @@ foreach ($model->models as $userList) {
     <div class="col-xs-12 col-sm-8 col-sm-offset-2">
         <div class="row thumbnail">
             <div class="col-sm-4 ">
-                <?= Html::img('/' . $user->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']); ?>
+                <?php if (!$user->avatar == null) {
+                    echo Html::img('/' . $user->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']);
+                } ?>
+
             </div>
             <div class="col-sm-8">
                 <div class=" title">
                     <h3><?= Html::a($user->getFullName(), ['/profile', 'id' => $user->getId()]) ?></h3>
                 </div>
                 <?= $user->getUsername() . ' ' ?>
-                <?= FA::icon('home') . ' ' . $user->city->name ?>
+                <?php if (!$user->city_id == null) {
+                    echo FA::icon('home') . ' ' . $user->city->name;
+                } ?>
+
                 <p>  <?= $userList->showStatusLabel() ?></p>
                 <?php
                 if ($isCurrentUser) {

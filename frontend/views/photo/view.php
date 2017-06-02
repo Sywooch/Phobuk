@@ -61,8 +61,9 @@ $this->registerJs($js, View::POS_READY);
 
         <div class="row">
             <div class="col-xs-4 col-sm-2 col-sm-offset-2">
-
-                <?= Html::img('/' . $model->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']); ?>
+                <?php if (!$model->user->avatar == null) {
+                    echo Html::img('/' . $model->user->photoAvatar->photo, ['class' => 'img-responsive avatar-small thumbnail']);
+                } ?>
             </div>
 
             <div class="col-xs-8 col-sm-6">
@@ -80,9 +81,11 @@ $this->registerJs($js, View::POS_READY);
 
         <div class="row ">
             <div class="col-xs-12 center">
-                <?= Html::a('#' . $model->category->name, ['/category/view', 'id' => $model->category->id], [
-                    'class' => 'btn btn-default btn-sm'
-                ]) ?>
+                <?php if (!$model->category_id == null) {
+                    echo Html::a('#' . $model->category->name, ['/category/view', 'id' => $model->category->id], [
+                        'class' => 'btn btn-default btn-sm'
+                    ]);
+                } ?>
             </div>
         </div>
 

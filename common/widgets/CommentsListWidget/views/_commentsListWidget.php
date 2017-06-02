@@ -44,7 +44,10 @@ use yii\helpers\Html;
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 ">
-                        <?= Html::img('/' . $comment->user->photoAvatar->photo, ['class' => ' img-responsive avatar-small thumbnail']); ?>
+                        <?php if (!$comment->user->avatar == null) {
+                            echo Html::img('/' . $comment->user->photoAvatar->photo, ['class' => ' img-responsive avatar-small thumbnail']);
+                        } ?>
+
                     </div>
                     <div class="col-xs-12 col-sm-6 center">
                         <div class="row">
