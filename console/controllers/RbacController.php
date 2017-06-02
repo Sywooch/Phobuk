@@ -15,48 +15,11 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        $createPost = $auth->createPermission('createPost');
-        $createPost->description = 'User can create post';
-        $auth->add($createPost);
-
-        $updatePost = $auth->createPermission('updatePost');
-        $updatePost->description = 'User can update post';
-        $auth->add($updatePost);
-
-        $createComment = $auth->createPermission('createComment');
-        $createComment->description = 'User can create comment';
-        $auth->add($createComment);
-
-        $updateComment = $auth->createPermission('updateComment');
-        $updateComment->description = 'User can update comment';
-        $auth->add($updateComment);
-
-        $inviteFriend = $auth->createPermission('inviteFriend');
-        $inviteFriend->description = 'User can invited friend';
-        $auth->add($inviteFriend);
-
-        $createEvent = $auth->createPermission('createEvent');
-        $createEvent->description = 'User can create Event';
-        $auth->add($createEvent);
-
-
         $user = $auth->createRole('user');
         $auth->add($user);
 
-        $author = $auth->createRole('author');
-        $auth->add($author);
-
         $admin = $auth->createRole('admin');
         $auth->add($admin);
-
-
-        $auth->addChild($author, $createPost);
-        $auth->addChild($author, $createComment);
-        $auth->addChild($author, $inviteFriend);
-        $auth->addChild($author, $createEvent);
-        $auth->addChild($admin, $author);
-        $auth->addChild($admin, $updatePost);
-        $auth->addChild($admin, $updateComment);
 
     }
 
