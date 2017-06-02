@@ -90,8 +90,10 @@ WHERE user_id = $userId ORDER BY created_at DESC";
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                $userCamera = new UserCamera();
-                $userCamera->saveUserCamera($model->id, $model->cameraBrands_ids);
+                if (!$model->cameraBrands_ids == null) {
+                    $userCamera = new UserCamera();
+                    $userCamera->saveUserCamera($model->id, $model->cameraBrands_ids);
+                }
                 return $this->redirect(['index', 'id' => $model->id]);
             }
         }
