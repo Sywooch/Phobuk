@@ -14,7 +14,7 @@ use yii\db\Expression;
  * @property integer $friend_one
  * @property integer $friend_two
  * @property integer $status
- * @property integer $created_at
+ * @property string $created_at
  *
  * @property User $friendOne
  * @property User $friendTwo

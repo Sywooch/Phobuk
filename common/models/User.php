@@ -21,8 +21,8 @@ use yii\web\IdentityInterface;
  * @property string $auth_key
  * @property integer $status
  * @property integer $level
- * @property integer $created_at
- * @property integer $update_at
+ * @property string $created_at
+ * @property string $updated_at
  * @property string $password write-only password
  *
  * @property string $text
@@ -92,8 +92,8 @@ class User extends ActiveRecord implements IdentityInterface
             'timestamp' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'update_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
                 'value' => new Expression('NOW()'),
             ],
@@ -117,7 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
-            [['cameraBrands_ids', 'cameraBrads'], 'safe'],
+            [['created_at', 'updated_at', 'cameraBrands_ids', 'cameraBrads'], 'safe'],
             [['password_reset_token'], 'unique'],
             [['avatar'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['avatar' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
@@ -138,7 +138,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'status' => 'Status',
             'created_at' => 'Utworzono',
-            'update_at' => 'Zaktualizowano',
+            'updated_at' => 'Zaktualizowano',
             'text' => 'Opis użytkownika',
             'avatar' => 'Avatar',
             'city_id' => 'Miasto',
@@ -293,6 +293,9 @@ class User extends ActiveRecord implements IdentityInterface
         return '@' . $this->username;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCity()
     {
         return $this->hasOne(City::className(), ['id' => 'city_id']);

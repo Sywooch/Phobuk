@@ -13,8 +13,8 @@ use yii\db\Expression;
  * @property integer $event_id
  * @property integer $user_id
  * @property integer $status
- * @property integer $created_at
- * @property integer $update_at
+ * @property string $created_at
+ * @property string $update_at
  *
  * @property Event $event
  * @property User $user
