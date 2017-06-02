@@ -29,7 +29,9 @@ $this->title = 'Zdjęcia';
             [
                 'attribute' => 'category_id',
                 'value' => function (Photo $model) {
-                    return $model->category->name;
+                    if (!$model->category_id == null) {
+                        return $model->category->name;
+                    }
                 }
             ],
             'created_at',
