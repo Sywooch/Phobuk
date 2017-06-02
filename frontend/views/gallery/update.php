@@ -7,7 +7,7 @@ use yii\bootstrap\Modal;
 /* @var $model common\models\Gallery */
 
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'update-gallery-modal',
         'header' => '<div class="center"> <h3>Aktualizuja galerii</h3></div>',

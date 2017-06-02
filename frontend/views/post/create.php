@@ -11,10 +11,10 @@ use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'create-post-modal',
-        'header' => '<div style="text-align: center"> <h3>Utwórz nowy post</h3></div>',
+        'header' => '<div class="center"> <h3>Utwórz nowy post</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
 

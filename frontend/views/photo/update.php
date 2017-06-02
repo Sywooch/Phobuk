@@ -7,10 +7,10 @@ use yii\bootstrap\Modal;
 /* @var $model common\models\Photo */
 
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'update-photo-modal',
-        'header' => '<div style="text-align: center"> <h3>Aktualizuja zdjęcia</h3></div>',
+        'header' => '<div class="center"> <h3>Aktualizuja zdjęcia</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
 

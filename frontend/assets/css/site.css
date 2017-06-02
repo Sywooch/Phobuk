@@ -272,3 +272,6 @@ div.required label.control-label:after {
     color: #4da3ff;
 }
 
+.modal-black {
+    color: black;
+}

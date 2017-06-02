@@ -9,7 +9,7 @@ use yii\bootstrap\Modal;
 $this->title = 'Dodaj wydarzenie';
 
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'create-event-modal',
         'header' => '<div class="center"> <h3>Dodaj nowe wydarzenie</h3></div>',

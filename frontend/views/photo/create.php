@@ -8,10 +8,10 @@ use yii\bootstrap\Modal;
 
 
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'create-photo-modal',
-        'header' => '<div style="text-align: center"> <h3>Dodaj nowe zdjęcie</h3></div>',
+        'header' => '<div class="center"> <h3>Dodaj nowe zdjęcie</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
 
