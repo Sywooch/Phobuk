@@ -67,8 +67,12 @@ $this->title = 'Użytkownicy';
             ],
             [
                 'attribute' => 'city_id',
+                'format' => 'text',
                 'value' => function (User $model) {
-                    return $model->city->name;
+                    if (!$model->city_id == null) {
+                        return $model->city->name;
+                    }
+
                 }
             ],
 
