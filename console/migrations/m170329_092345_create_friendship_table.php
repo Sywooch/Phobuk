@@ -10,15 +10,19 @@ class m170329_092345_create_friendship_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
         $this->createTable('friendship', [
             'id' => $this->primaryKey(),
             'friend_one' => $this->integer()->notNull(),
             'friend_two' => $this->integer()->notNull(),
             'status' => $this->integer()->notNull(),
-            'created_at' => $this->integer()->notNull(),
-        ]);
+            'created_at' => $this->dateTime()->notNull(),
+        ], $tableOptions);
         $this->createIndex('friendship_friend_one_index', 'friendship', 'friend_one');
         $this->createIndex('friendship_friend_two_index', 'friendship', 'friend_two');
 
@@ -29,7 +33,7 @@ class m170329_092345_create_friendship_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropForeignKey('fk_friendship_friend_one', 'friendship');
         $this->dropForeignKey('fk_friendship_friend_two', 'friendship');
