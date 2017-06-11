@@ -10,7 +10,7 @@ use yii\bootstrap\Modal;
 <div class="modal-black">
     <?php Modal::begin([
         'id' => 'update-event-modal',
-        'header' => '<div class="center"> <h3>Aktualizuja wydarzenia</h3></div>',
+        'header' => '<div class="center"> <h3>Aktualizacja wydarzenia</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
 

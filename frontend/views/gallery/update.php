@@ -10,7 +10,7 @@ use yii\bootstrap\Modal;
 <div class="modal-black">
     <?php Modal::begin([
         'id' => 'update-gallery-modal',
-        'header' => '<div class="center"> <h3>Aktualizuja galerii</h3></div>',
+        'header' => '<div class="center"> <h3>Aktualizacja galerii</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
 
