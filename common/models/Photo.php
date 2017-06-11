@@ -36,6 +36,9 @@ class Photo extends \yii\db\ActiveRecord
      */
     public $imageFile;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * @inheritdoc
      */
@@ -70,12 +73,15 @@ class Photo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['imageFile', 'title'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['title'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['user_id', 'category_id'], 'integer'],
             [['created_at', 'update_at'], 'safe'],
             [['photo', 'title'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_CREATE],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_UPDATE],
         ];
     }
 

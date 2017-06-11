@@ -52,6 +52,7 @@ class PhotoController extends Controller {
      */
     public function actionCreate() {
         $model = new Photo();
+        $model->scenario = Photo::SCENARIO_CREATE;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
@@ -60,7 +61,7 @@ class PhotoController extends Controller {
                 $model->upload();
             }
 
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -79,6 +80,7 @@ class PhotoController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
+        $model->scenario = Photo::SCENARIO_UPDATE;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
@@ -86,17 +88,16 @@ class PhotoController extends Controller {
             if ($model->imageFile) {
                 $model->upload();
             }
-
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
 
-        } else {
-            return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->renderAjax('update', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
