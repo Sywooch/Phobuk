@@ -42,31 +42,31 @@ use yii\web\JsExpression;
     <div class="col-md-12">
         <div class="row">
 
-
             <div class="col-md-4 ">
-                <p><strong>Data wydarzenia</strong></p>
-                <?php echo DateTimePicker::widget([
+                <?= $form->field($model, 'date')->widget(DateTimePicker::className(), [
                     'type' => DateTimePicker::TYPE_COMPONENT_PREPEND,
                     'model' => $model,
                     'attribute' => 'date',
                     'language' => 'pl',
-
+                    'id' => 'event-date',
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'yyyy-mm-dd hh:ii',
                     ]
-                ]) ?>
+                ]);
+                echo Html::error($model, 'date'); ?>
             </div>
+
             <div class="col-md-4">
                 <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::find()->all(), 'id', 'name'), ['prompt' => 'Wybierz miasto']) ?>
             </div>
+
             <div class="col-md-4">
 
                 <?php
                 $allUser = ArrayHelper::map(User::find()->all(), 'id', 'fullName');
                 $userInEvent = [];
                 foreach ($model->users as $user) {
-
                     $userInEvent[] = ['id' => $user->id, 'text' => $user->getFullName()];
                 }
                 echo $form->field($model, 'users_ids')->
@@ -77,12 +77,9 @@ use yii\web\JsExpression;
                         'items' => $allUser,
                         'placeholder' => 'Wybierz',
                         'initSelection' => new JsExpression('function(data, callback) {
-            $("#' . Html::getInputId($model, 'users_ids') . '").selectivity("data", ' . Json::encode($userInEvent) . ')
-        }')
+                            $("#' . Html::getInputId($model, 'users_ids') . '").selectivity("data", ' . Json::encode($userInEvent) . ') }')
                     ]
-
                 ]) ?>
-
             </div>
 
         </div>
