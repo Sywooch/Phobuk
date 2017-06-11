@@ -25,7 +25,7 @@ use yii\helpers\Html;
     <div class="row thumbnail">
         <div class="col-sm-3">
             <?php if (!$dispalayedUser->avatar == null) {
-                echo Html::img('/' . $dispalayedUser->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']);
+                echo Html::img('/' . $dispalayedUser->photoAvatar->photo, ['class' => ' img-responsive avatar-list-friend ']);
             } ?>
 
         </div>

@@ -66,7 +66,7 @@ $this->registerJs($js, View::POS_READY);
                     <div class="col-xs-12">
                         <h4>
                             Kiedy: <?= FA::icon('calendar') . ' ' . $model->date ?></h4>
-                        <p style="font-style: italic"> <?= $daysToEvent ?></p>
+                        <div class="event-italic-text"> <?= $daysToEvent ?></div>
                         <h4>Gdzie: <?= FA::icon('map-marker') . ' ' . $model->city->name ?></h4>
                         <h4> Organizator:
                             <?= Html::a(FA::icon('user') . ' ' . $model->eventOrganizer->getFullName(), ['/profile/', 'id' => $model->organizer], [

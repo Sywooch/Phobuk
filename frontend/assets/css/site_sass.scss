@@ -21,6 +21,7 @@ $large: "only screen and (max-width: 1200px)";
 
 }
 
+
 .title {
   text-align: center;
   a {
@@ -32,7 +33,7 @@ $large: "only screen and (max-width: 1200px)";
   text-align: center;
 }
 
-.backgroung-top {
+.background-top {
   background-color: #2E3A3F;
   color: #FBFCFD;
   padding-top: 6%;
@@ -52,6 +53,9 @@ $large: "only screen and (max-width: 1200px)";
   }
 }
 
+.profile-margin {
+  margin-left: 5px;
+}
 .left-menu {
 
   -webkit-transition: all 0.5s ease;
@@ -353,5 +357,4 @@ $large: "only screen and (max-width: 1200px)";
   &.active {
     display: block;
   }
-
 }

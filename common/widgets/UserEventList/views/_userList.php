@@ -20,7 +20,7 @@ foreach ($model->models as $userList) {
         <div class="row thumbnail">
             <div class="col-sm-4 ">
                 <?php if (!$user->avatar == null) {
-                    echo Html::img('/' . $user->photoAvatar->photo, ['class' => ' img-responsive avatar-listFriend ']);
+                    echo Html::img('/' . $user->photoAvatar->photo, ['class' => ' img-responsive avatar-list-friend ']);
                 } ?>
 
             </div>

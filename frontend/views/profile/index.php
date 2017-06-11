@@ -36,7 +36,7 @@ $js = <<<JS
 JS;
 $this->registerJs($js, View::POS_READY);
 ?>
-<div class="backgroung-top">
+<div class="background-top">
     <div id="modal-placeholder"></div>
     <div class="container">
         <div class="row">
@@ -48,7 +48,7 @@ $this->registerJs($js, View::POS_READY);
                 ?>
 
             </div>
-            <div class="col-xs-4 col-sm-3 col-md-3 " style="margin-left: 5px">
+            <div class="col-xs-4 col-sm-3 col-md-3 profile-margin">
                 <h3><?= $user->getFullName() ?></h3>
                 <h5><?= $user->getUsername() ?></h5>
                 <p>

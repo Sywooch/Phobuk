@@ -18,10 +18,10 @@ use yii\helpers\Html;
 $this->title = 'Aktualizacja profilu: ' . $model->username;
 
 ?>
-<div style="color: black">
+<div class="modal-black">
     <?php Modal::begin([
         'id' => 'update-user-modal',
-        'header' => '<div style="text-align: center"> <h3>Aktualizuja profilu</h3></div>',
+        'header' => '<div class="center"> <h3>Aktualizuja profilu</h3></div>',
         'size' => Modal::SIZE_LARGE
     ]); ?>
     <div class="user-update">
