@@ -171,7 +171,7 @@ class Photo extends \yii\db\ActiveRecord
     public static function imageList($filenames) {
         $imageList = [];
         foreach ($filenames as $id => $path) {
-            $imageList[$id] = Html::img('/' . $path, ['class' => ' img-responsive avatar-listFriend photo-radio thumbnail ']);
+            $imageList[$id] = Html::img('/' . $path, ['class' => ' img-responsive avatar-list-friend photo-radio thumbnail ']);
 
 
         }
