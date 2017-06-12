@@ -21,12 +21,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/font-awesome.css',
         'css/site_sass.scss',
-        'css/modaal.css',
     ];
 
     public $js = [
         'js/main.js',
-        'js/modaal.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
